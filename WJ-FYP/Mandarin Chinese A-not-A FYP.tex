@@ -1,0 +1,1999 @@
+\documentclass[12pt, UTF8]{article}
+
+%\usepackage{fullpage}
+\usepackage{fontspec,relsize}
+\newcommand\textscc[1]{{\smaller #1}}
+%\setmainfont{Times New Roman}
+\usepackage[margin=20mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\setlength{\headheight}{15pt}
+
+\usepackage{xeCJK}
+\setCJKmainfont{AR PL SungtiL GB}
+%\usepackage{xpinyin}
+%\setCJKmainfont{Song}
+%\usepackage[UTF8]{inputenc}
+
+\usepackage{qtree}
+\usepackage[authoryear]{natbib}
+\usepackage{avm}
+\usepackage{gb4e+}
+
+
+%opening
+\title{A-not-A Questions of Mandarin Chinese: An HPSG Analysis}
+\author{Wenjie WANG\\ 
+DRAFT 1.01 (Beta 1)}
+%Nanyang Technological University, Singapore\\
+%wwang5@e.ntu.edu.sg}
+
+
+
+\begin{document}
+\parskip 1.5ex
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\begin{abstract}
+%The A-not-A structure has seen extensive research in the past decades, with Huang (1982) among the first, and XX (2014?) being one of the most recent. Nevertheless, most of these papers had analysed the A-not-A structure through the grammatical theories of GB, MT and ??, and an HPSG account has not thus far been performed. This study serves two purposes: to consolidate the past studies based on other grammatical frameworks, and re-organising them to align with the theories of HPSG, and secondly, to implement said grammar into the LKB system as part of the ZHONG grammar for Mandarin Chinese. (This abstract is very brief; and not very well-written. Reorganise)
+
+In this paper, I look at \textsc{a-not-a} questions of Mandarin Chinese and provide an account based on the framework of Head-driven Phrase Structure Grammar (HPSG). The \textsc{a-not-a} structure has seen extensive research in the past decades; however, an HPSG-based account has thus far not been performed. This study thus serves two purposes: to consolidate past studies based on other frameworks and re-align and supplement them based on the HPSG framework. Secondly, the aim is to provide the groundwork and implementation for eventual integration into the \textit{Zhong }grammar for Mandarin Chinese \textbf{[This abstract is very brief; perhaps a re-write is needed...]}
+\end{abstract}
+
+\section{Introduction}
+In this paper, I will be looking at the \textsc{A-NOT-A} question structure of Mandarin Chinese and provide an account of this phenomenon based on the framework of Head-driven Phrase Structure Grammar (HPSG). Simultaneously, this account will be implemented as a computational grammar, laying the groundwork for eventual integration it into the \textit{Zhong} Mandarin Grammar developed by Nanyang Technological University (NTU).
+
+This paper is divided into five (5) main sections. In the current section (\S1), I will run through the basic properties of \textsc{a-not-a} questions, as well as compare it to two other question types in Mandarin Chinese. Next, in \S2, I look more into the existing accounts and their handling of the \textsc{a-not-a} structure. \S3 gives a general idea of the scope of this paper and the intended coverage. \S4 will provide the HPSG account and finally, \S5 will touch briefly on the implementation of the HPSG account into the \textit{Zhong} system.
+
+\subsection{Brief Look at A-not-A}
+The \textsc{a-not-a} structure is one of the methods available in Mandarin Chinese for posing alternative or yes/no questions. It is thus named because the structure is composed of a negator \textsc{not} being flanked by an element --- conventionally known as \textsc{a} --- that is reduplicated. For ease of reference, the two copies of \textsc{a} are labelled as \textsc{a_1} and \textsc{a_2}, according to their linear (left-to-right) order. 
+
+In Mandarin Chinese, \textsc{not} can be either of the negators \textit{b\`{u}} or \textit{m\'{e}i}, the choice of which depends mainly on the aspect of the \textsc{a} element (stative or imperfective, and bound events or perfective, respectively), similar to when they are used as actual negators.\footnotemark[1] 
+\footnotetext[1]{In this paper, I shall use \textsc{not} to refer to either of these where specificity is not required.}
+
+In its most basic form, \textsc{a} is reduplicated in full; however, it can also be partially reduplicated. The following examples will illustrate some of these possibilities.
+
+\begin{exe}
+\ex{
+	\begin{xlist}
+	\ex\label{intro-vp-not-vp}{
+		\glll 
+		张三 喜欢 狗 不 喜欢 狗？ \\
+		Zh\={a}ngs\={a}n xihu\={a}n gou b\`{u} xihu\={a}n gou?\\
+		Zhangsan like dog NOT like dog?\\
+		\mytrans{Does Zhangsan like dogs or not like dogs?}
+		}
+		
+	\ex\label{intro-basic-form}{
+		\glll 
+		张三 喜欢 不 喜欢 狗？\\
+		Zh\={a}ngs\={a}n xihu\={a}n b\`{u} xihu\={a}n gou?\\
+		Zhangsan like NOT like dog?\\
+		\mytrans{Does Zhangsan like or not like dogs?}
+		}
+		
+	\ex\label{intro-cont-form}{
+		\glll 
+		张三 喜 不 喜欢 狗？\\
+		Zh\={a}ngs\={a}n xi b\`{u} xihu\={a}n gou?\\
+		Zhangsan xi- NOT like dog?\\
+		\mytrans{Does Zhangsan like or not like dogs?}
+		}
+
+	\ex[*]{
+		\label{intro-cont-form-ug}
+		\glll 
+		张三 喜欢 不 喜 狗？\\
+		Zh\={a}ngs\={a}n xi b\`{u} xi gou?\\
+		Zhangsan like NOT xi- dog?\\
+		\mytrans{Does Zhangsan like or not like dogs?}
+		}
+		
+	\ex[*]{
+		\label{intro-cont-form-ug2}
+		\glll 
+		张三 喜 不 喜 狗？\\
+		Zh\={a}ngs\={a}n xi b\`{u} xi gou?\\
+		Zhangsan xi- NOT xi- dog?\\
+		\mytrans{Does Zhangsan like or not like dogs?}
+		}
+		
+	\ex\label{intro-ab-not-a}{
+		\glll 
+		张三 喜欢 狗 不 喜欢？\\
+		Zh\={a}ngs\={a}n xihu\={a}n gou b\`{u} xihu\={a}n?\\
+		Zhangsan like dog NOT like?\\
+		\mytrans{Does Zhangsan like dogs or not like dogs?}
+		}
+		
+	\ex[*]{
+		\label{intro-ab-not-a-ug}
+		\glll 
+		张三 喜欢 狗 不 喜？\\
+		Zh\={a}ngs\={a}n xihu\={a}n gou b\`{u} xi?\\
+		Zhangsan like dog NOT xi-?\\
+		\mytrans{Does Zhangsan like dogs or not like dogs?}
+		}
+	
+	\ex[*]{
+		\label{intro-a-not-ab-ug}
+		\glll 
+		张三 喜 狗 不 喜欢？\\
+		Zh\={a}ngs\={a}n xi gou b\`{u} xihu\={a}n?\\
+		Zhangsan xi- dog NOT like?\\
+		\mytrans{Does Zhangsan like dogs or not like dogs?}
+	}
+		
+	\end{xlist}
+}
+\end{exe}
+
+As shown in the examples above, partial reduplication can result in either the verb being reproduced without its complement, or the verb being reproduced with only its first character/syllable. 
+
+As illustrated in (\ref{intro-ab-not-a-ug}), this is not equally applicable to both \textsc{a_1} and \textsc{a_2}. For \textsc{a_2}, only one type of partial reduplication --- deletion of complement --- is permitted. Even so, (\ref{intro-a-not-ab-ug}) shows that \textsc{a_1} cannot go through single-character reduplication if it is followed by its complement.\footnotemark[2] 
+
+\footnotetext[2] {A type of reduplication unique to \textsc{a_2} is one where \textsc{a_2} is completely absent, resembling a form of ellipsis. This particular variant is known as the \textsc{vp-neg} or \textsc{a-not} pattern.}
+
+\textbf{Partial reduplication of only the first character can be said to violate lexical integrity}
+
+Apart from being verbs or verb phrases as illustrated above, the \textsc{a} elements can also be adjective, prepositions and modals. The same possibilities for full or partial reduplication is extended to these other types as well. Nouns and nominals are flakier in their acceptability, while adverbs such as 很 \textit{hen} are completely dis-allowed.
+
+\begin{exe}
+% One-char Adj
+\ex{
+	\begin{xlist}
+	\ex\label{intro-adj}{
+		\textbf{Adjective}
+		\glll
+		张三 高 不 高？\\
+		Zh\={a}ngs\={a}n g\={a}o b\`{u} g\={a}o?\\
+		Zhangsan tall NOT tall\\
+		\mytrans{Is Zhangsan tall or not tall?}
+		}
+		
+	% MWE Adj
+	\ex\label{intro-adj-2}{
+		\textbf{Adjective (optional partial reduplication)}
+		\glll 
+		张三 健(康) 不 健(康)?\\
+		Zh\={a}ngs\={a}n ji\`{a}n(k\={a}ng) b\`{u} ji\`{a}nk\={a}ng?\\
+		Zhangsan healthy NOT healthy\\
+		\mytrans{Is Zhangsan healthy or not healthy?}
+		}
+		
+	\ex\label{intro-prep}{
+		\textbf{Preposition}
+		\glll 
+		张三 在 不 在 家？\\
+		Zh\={a}ngs\={a}n z\`{a}i b\`{u} z\`{a}i j\={\i}a?\\
+		Zhangsan at NOT at home\\
+		\mytrans{Is Zhangsan in?}
+		}
+		
+	\ex\label{intro-modal}{
+		\textbf{Modal Verbs}
+		\glll 张三 要 不 要 吃 苹果？\\
+		Zh\={a}ngs\={a}n y\`{a}o b\`{u} y\`{a}o ch\={i} p\'{i}nggu\v{o}?\\
+		Zhangsan want NOT want eat apple\\
+		\trans{Does Zhangsan want to eat apples?}
+	}
+	
+	\ex\label{intro-adverbs}{
+		\textbf{Degree Adverbs [, Eg 1]}
+		\glll *张三 常 不 常 迟到？\\
+		*Zh\={a}ngs\={a}n ch\'{a}ng b\`{u} ch\'{a}ng xihu\={a}n Lis\`{\i}?\\
+		Zhangsan very NOT very like Lisi\\
+		\mytrans{Does Zhangsan like Lisi very much?}
+		
+	}
+	
+	\ex\label{intro-adverbs-degree}{
+		\textbf{Degree Adverbs [\cite{Tseng2009}, Eg 1]}
+		\glll *张三 很 不 很 喜欢 李四？\\
+		*Zh\={a}ngs\={a}n hen b\`{u} hen xihu\={a}n Lis\`{\i}?\\
+		Zhangsan very NOT very like Lisi\\
+		\mytrans{Does Zhangsan like Lisi very much?}
+		
+	}
+		
+	\end{xlist}
+}
+	
+\end{exe}
+
+Not all adverbs can participate as the \textsc{a} element. For instance, as seen in (\ref{intro-adverbs-degree}), degree adverbs such as 很 \textit{hen} cannot be the \textsc{a} element. A reason was given by \cite{Tseng2009}, who suggested that the \textsc{a-not-a} operator, from higher up the tree, lowers and attaches itself to the most immediate morpho-syntactic word (MWd) that it commands. This MWd must at the same time also be an X-bar theoretical head. Since \textit{hen} is not considered such a head, the \textsc{a-not-a} operator is prevented from attaching to and operating on it.
+
+The reduplicative forms of all adverbs, however, are not permitted.
+
+
+%\textbf{Inner vs Outer A-not-A} as discussed in another paper... Unfortunately it is just a presentation handout at the moment without a actual paper (yet). This can be shifted to a later section.
+
+%In analyses such as that of \cite{Tseng2009}, it can be said that these variants all derive from the same ``basic form" and therefore are identical underneath, whereupon further post-syntactic transformations are applied to produce their ``final forms".
+
+
+%\textbf{Partial reduplication? Or Reduplication + Deletion?}\\
+
+%\textbf{Reduplication}
+%The \textsc{a-not-a} structure is a type of reduplicative structure. Reduplicative structures are common in Mandarin Chinese. AA, AABB, ABAB.
+%\\
+%Reduplication of the \textsc{a} element can be full or partial. In the \textsc{a_1-not-a_2} structure, \textsc{a_1} can be partial or full. As a general summary of the process, the element \textsc{a_2} is reduplicated as \textsc{a_1}. This reduplication can be full, be without the complement (if \textsc{a_2} is a verb that takes a complement), or be with only the first syllable/character \textsc{a_2}:\\
+
+% Zhangsan xihuan Lisi bu xihuan Lisi
+% Zhangsan xihuan      bu xihuan Lisi
+% Zhangsan xi          bu xihuan Lisi
+% Zhangsan xihuan Lisi bu xihuan
+%*Zhangsan xihuan Lisi bu xi <-- Elision?
+
+%\textbf{Elision}
+%Another mechanism that is frequently used in the \textsc{a-not-a} structure is that of elision. According to \textsc{Xu \& Tian}, a key difference between the reduplicative mechanism and the elision mechanism is their adherance to constitutional integrity. This is witnessed in \textsc{a-not-a} as well. \\
+
+
+
+% Zhangsan you mei you chang-chang kan dian shi?
+%* Zhangsan chang-chang kan-bu-kan dian shi?
+
+
+
+%Generally, the A-not-A structure is composed of two identical elements flanking the negator b\`{u} or m\'{e}i (both of which represent the "NOT").
+
+%The element labelled \textsc{A} can be a verb, adjective or preposition. Verb phrases and Prepositional phrases can also be \textsc{A}. Examples (1-10) illustrates some instances of \textsc{A-not-A} questions in action.
+%\begin{exe}
+% One-char V
+%\ex{
+%	\gll Zh\={a}ngs\={a}n q\`{u} bu q\`{u}?\\
+%	Zhangsan go NOT go\\
+%	\mytrans{Is Zhangsan going?}
+%	}
+	
+% MWE V
+%\ex{
+%	\gll Zh\={a}ngs\={a}n sh\`{u}iji\`{a}o bu sh\`{u}iji\`{a}o?\\
+%	Zhangsan sleep NOT sleep\\
+%	\mytrans{Is Zhangsan going?}
+%}  
+
+% VP-not-VP
+
+%\ex{
+%	\gll Zh\={a}ngs\={a}n x\^{\i}hu\={a}n gou bu x\^{\i}hu\={a}n gou?\\
+%	Zhangsan sleep NOT sleep\\
+%	\mytrans{Does Zhangsan like dogs or not like dogs?}
+%}
+
+% One-char Adj
+%\ex{
+%	\gll Zh\={a}ngs\={a}n g\={a}o bu g\={a}o?\\
+%	Zhangsan tall NOT tall\\
+%	\mytrans{Is Zhangsan tall or not tall?}
+%	}
+	
+% MWE Adj
+%\ex{
+%	\gll Zh\={a}ngs\={a}n ji\`{a}nk\={a}ng bu ji\`{a}nk\={a}ng?\\
+%	Zhangsan healthy not healthy\\
+%	\mytrans{Is Zhangsan healthy or not healthy?}
+%	}
+%	
+%\ex{
+%	\gll Zh\={a}ngs\={a}n z\`{a}i bu z\`{a}i?\\
+%	Zhangsan in NOT in\\
+%	\mytrans{Is Zhangsan in?}
+%	}
+%	
+%\ex{
+%	\gll Zh\={a}ngs\={a}n z\`{a}i j\={i}a bu z\`{a}i j\={i}a?\\
+%	Zhangsan at home NOT at home\\
+%	\mytrans{Is Zhangsan at home or not at home?}
+%	}
+%
+%\end{exe}
+%
+%In each of the examples above, the element \textsc{A} are identical elements. Nevertheless, there are variations in which \textsc{A} can apparently be different. In these cases, the reduplication is only partial:
+
+%\begin{exe}
+%
+%\ex{
+%	\gll Zh\={a}ngs\={a}n x\^{\i} bu x\^{\i}hu\={a}n gou?\\
+%	Zhangsan like NOT like dogs\\
+%	\mytrans{Does Zhangsan like dogs or not like dogs?}
+%}
+%
+%\ex{
+%	\gll Zh\={a}ngs\={a}n ji\`{a}n bu ji\`{a}nk\={a}ng\\
+%	Zhangsan healthy not healthy\\
+%	\mytrans{Is Zhangsan healthy or not healthy?}
+%	}
+%
+%\end{exe}
+
+%In these forms, only the first character/syllable of the multi-word \textsc{A} remains, with the rest elided/deleted. Thus, the left \textsc{A} would on the surface be different from the right \textsc{A}. However, these sentences can be argued to be derived from the base forms in (X), with past analyses showing that they undergo post-syntactic transformations that give them their final form (Huang, 1991, Tseng 2009, among others). Therefore, the underlying forms of these alternatives (X) still contain the same element flanking \textsc{not}.
+%
+%With this in mind, this paper will identify the forms in (X) as the \textsc{Basic Form}s of the \textsc{A-not-A} structure from which all other forms are derived. The forms in (X) are then called \textsc{Contracted Form}s. Sub-variants of the \textsc{Contracted Form} can also include the \textsc{A-not-AB} and \textsc{AB-not-A} structures, where \textsc{B} is the object of \textsc{A}, with A being a verb. These are, therefore, forms derived from the \textsc{VP-not-VP} form in (X):
+%\begin{exe}
+%\ex{
+%	\gll Zh\={a}ngs\={a}n x\^{\i}hu\={a}n gou bu x\^{\i}hu\={a}n?\\
+%	Zhangsan like dogs NOT like\\
+%	\mytrans{Does Zhangsan like dogs or not like dogs?}
+%}
+%\end{exe}
+%
+%Regardless, contraction to the first syllable applies only to the first \textsc{A}; the second \textsc{A} must remain in its full form for all cases. Thus, the following are not acceptable:
+%
+%\begin{exe}
+%
+%\ex{
+%	\gll Zh\={a}ngs\={a}n x\^{\i} bu x\^{\i}*(hu\={a}n) gou?\\
+%	Zhangsan like NOT like dogs\\
+%	\mytrans{Does Zhangsan like dogs or not like dogs?}
+%}
+%
+%\ex{
+%	\gll Zh\={a}ngs\={a}n ji\`{a}n bu ji\`{a}n*(k\={a}ng)\\
+%	Zhangsan healthy not healthy\\
+%	\mytrans{Is Zhangsan healthy or not healthy?}
+%	}
+%
+%\end{exe}
+
+\subsection{Other types of questions in Mandarin Chinese}
+In addition to the \textsc{A-not-A} structure, there are other ways to ask questions in Mandarin Chinese. This section takes a brief look at two such question types --- the 还是 \textit{h\'{a}ish\`{\i}} disjunctive and the 吗\textit{ma}-question --- and compares them to the \textsc{a-not-a} structure.
+%there are at least three other forms of questions in Mandarin Chinese: 
+%\begin{itemize}
+%\item Disjunctive 还是 \textit{h\'{a}ish\`{i}} questions
+%\item MA-questions
+%\end{itemize}
+
+\subsubsection{还是 \textit{h\`{a}ish\`{i}} Disjunctive}
+
+The 还是 \textit{h\'{a}ish\`{i}} ``or" disjunctive typically involves distinct choices, such that the general structure can be \textsc{a h\'{a}ish\`{i} b} ([A or B]). If more than two choices are involved, then \textit{h\'{a}ish\`{i}} ``or" is typically used only to conjoin the last two conjuncts, with the rest separated conventionally by commas (or the ``list-commas" used in Chinese writing), similar to how \textit{or} or \textit{and} is used in English. The disjunctive can be exclusive and non-exclusive, and the responses can be either one of the choices, \textit{both} or even \textit{neither}.
+
+A variant of this is the \textsc{a h\'{a}ish\`{i} not-a} ([A] or [not A]) form, where the second choice is simply the negated form of the first. In this form, the disjunctive is strictly exclusive and a choice has to be made between the two. This is because both disjunctive propositions --- \textit{p} or \textit{$\neg$p} ---  cover the entire set of possibilities, with no ``third choice". Among the various question types, this particular variant \textsc{a h\'{a}ish\`{i} not-a} disjunctive question appears to be the closest to \textsc{a-not-a} questions.
+
+This has led linguists in the past\textbf{, such as Mei (1978, cited in Huang (1991)),} to believe that the \textsc{a-not-a} structure was historically a derivative of this \textit{h\'{a}ish\`{i}} disjunctive with \textit{h\'{a}ish\`{i}} elided. In other words, the derivation of \textsc{a-not-a} would result from a deletion of the coordinant. Crisp though such an analysis might be, \cite{Huang1991}, found such a synchronic analysis sub-optimal, and went on to identify five problematic areas. 
+
+Chiefly, the five problematic areas concern the rules and constraints in which the \textit{haishi} disjunctive adheres to, but which the \textsc{a-not-a} structure violates, which should not occur if the process of obtaining \textsc{a-not-a} was simply the deletion of the coordinator \textit{haishi}.
+
+Firstly, he claims that such an account violates the Directionality Constraint (DC). Take, for example, the two sentences below:
+
+\begin{exe}
+	\ex{
+	\begin{xlist}
+
+		\ex{\textbf{John} sang and \textbf{John} danced.}
+		\ex{John \textbf{sang} and Mary \textbf{sang}.}	
+
+	\end{xlist}
+	
+	}
+\end{exe}
+
+According to the DC, the position of the identical elements (bolded above) on the branch determines the coordinate deletion procedure. Hence, if the identical element is on the left branch, deletion of this element proceeds ``forward", and if it is on the right branch, deletion proceeds ``backward". 
+
+\begin{exe}
+	\ex{
+	\begin{xlist}
+
+		\ex{John sang and danced.}
+		\ex[*]{sang and John danced.}
+		\ex{John and Mary sang.}
+		\ex[*]{John sang and Mary.}	
+
+	\end{xlist}
+	
+	}
+\end{exe}
+
+Huang argues that while the \textit{h\'{a}ish\`{\i}} disjunctive adheres to the Directionality Constraint, \textsc{a-not-a} does not:
+
+[examples]
+
+The DC correctly predicts what can and cannot be deleted for the \textit{h\'{a}ish\`{\i}} disjunctive, but it is unable to do so for \textsc{a-not-a}, because the right-branch element 书 \textit{sh\={u}} should not be deleted as only ``forward" deletion on 他 \textit{t\={a}} should have been performed.
+
+Secondly, Huang brought up \textbf{Tai (1972)}'s Immediate Dominance Constraint (ID), which states that coordinate deletion can only occur with elements that are immediately dominated by a conjunct node.
+
+Thirdly, he brought up the issue of lexical integrity, based on the Lexical Integrity Hypothesis, which prevents phrase-level rules (such as topicalisation) from being carried out on the proper, integral components of a word, particularly a multi-character word.
+
+Fourthly, it involves the restriction of preposition stranding in Mandarin Chinese. Huang showed that some \textsc{a-not-a} questions can violate this restriction, but \textsc{h\'{a}ish\`{i}} disjunctive cannot.
+
+\begin{exe}
+\ex {
+	\begin{xlist}
+	\ex{
+		\glll 你 把 不 把 功课 做完？\\
+		ni ba b\`{u} ba g\={o}ngk\`{e} zu\`{o}w\'{a}n?\\
+		yo BA NOT BA homework do-finish?\\
+		\mytrans{Will you finish the homework or not?}
+	}
+	\ex[*]{
+		\glll 你 把 还是 不 把 功课 做完？\\
+		ni ba h\'{a}ish\`{\i} b\`{u} ba g\={o}ngk\`{e} zu\`{o}w\'{a}n?\\
+		you BA NOT BA homework do-finish?\\
+		\mytrans{Will you finish the homework or not?}
+	}
+	\end{xlist}
+}
+\end{exe}
+
+Finally, \textsc{a-not-a} exhibits the effects of island constraints, whereas the \textsc{haishi} disjunctive does not. The \textsc{haishi} disjunctive can also be used within a relative clause, while \textsc{a-not-a} cannot.
+
+\begin{exe}
+
+\ex{	
+	\begin{xlist}
+	\ex{
+		\glll
+		张三 去 还是 不 去 比较 好？\\
+		Zh\={a}ngs\={a}n q\`{u} h\'{a}ish\`{i} b\`{u} q\`{u} biji\`{a}o hao?\\
+		zhangsan go HAISHI not go comparatively better?\\
+		\mytrans{Is it better that Zhangsan go (there) or not go (there)?}
+	}
+	
+	\ex[*]{
+		\glll 
+		张三 去 不 去 比较 好？\\
+		Zh\={a}ngs\={a}n q\`{u} b\`{u} q\`{u} biji\`{a}o hao?\\
+		zhangsan go not go comparatively better?\\
+		\mytrans{Is it better that Zhangsan go (there) or not go (there)?}
+	}
+	\end{xlist}	
+}
+
+\ex {
+	\textbf{(From \cite{Huang1991}, Examples 34 and 35)}
+	\begin{xlist}
+		\ex{
+			\glll
+			你 喜欢 [认识 你 还是 不 认识 你] 的 人？\\
+			ni xihu\={a}n [r\`{e}nsh\`{\i} ni h\'{a}ish\`{i} b\`{u} r\`{e}nsh\`{\i} ni] de ren?\\
+			you like know you HAISHI not know you DE person\\
+			\mytrans{Do you like people who know you or people who do not know you?}
+		}
+		
+		\ex[*]{
+			\glll 
+			你 喜欢 [认识 你 不 认识 你] 的 人？\\
+			ni xihu\={a}n [r\`{e}nsh\`{\i} ni b\`{u} r\`{e}nsh\`{\i} ni] de ren?\\
+			you like know you NOT know you DE person\\
+			\mytrans{Do you like people who know you or people who do not know you?}
+		}
+		\end{xlist}
+}
+
+\end{exe}
+
+%\footnotemark[2] 
+%\footnotetext[2]{Nevertheless, as late as this decade, there are still those who see the \textsc{a-not-a} structure as being derived from the \textit{h\'{a}ish\`{i}} disjunctive structure, such as \textbf{Schaffar (2010)}. [Linguist] as of [year] believes that the \textsc{a-not-a} structure is a grammaticalised form...??} 
+
+\cite{McCawley1994}, further points out a difference between the two in terms of the arrangement of the disjuncts, which was not accounted for in \cite{Huang1991} While the \textit{haishi} disjunctive has a preference for the positive assertion to come first, it still permits the negative assertion to come before, even if there is a shift in bias. Such an order is not permitted in \textsc{a-not-a} constructions:
+
+%\begin{exe}
+%
+%\ex {
+%	\textbf{From \cite{McCawley1994}, Example 13 (selective)}
+%	\begin{xlist}
+%	\ex {
+%	
+%	
+%	}
+%	
+%	
+%	\end{xlist}
+%
+%}
+%
+%\end{exe}
+
+Another difference is that in \textsc{a-not-a} sentences, the \textsc{a} elements cannot be modified by a degree adverb, nor can the degree adverb itself be the \textsc{a} element (as we have seen in \S 1.1).
+
+
+
+
+
+This does not overlook the fact that the positive disjunct being first is still the preferred order. As such, \cite{Liing2014} believes that the \textsc{a-not-a} construction could in fact be a grammaticalisation of such a preference, which explains why the reverse (\textsc{not-a a}) is not permitted.
+
+%There are also differences in the existential, non-interrogative uses of \textsc{a-not-a}.
+%
+%Ni keyi bu qu\\
+%Ni keyi qu haishi/huoshi bu qu\\
+%* Ni keyi qu bu qu\\
+%
+%but
+%\\
+%Qu bu qu dou ke yi\\
+
+\subsubsection{MA-questions}
+
+These questions are marked by the sentence-final particle (SFP) 吗 \textit{m\={a}}. Hereafter I shall refer to these as MA-questions.
+
+It has been suggested by some (such as \cite{Ernst1994} and \cite{Law2001}) that MA-questions and \textsc{a-not-a} questions are semantically equivalent and thus interchangeable, such that a MA-question can be paraphrased into an \textsc{a-not-a} question (and vice versa):
+
+\begin{exe}
+\ex{
+	\begin{xlist}
+	\ex {
+		\glll 
+		张三 喜欢 不 喜欢 李四?\\
+		Zh\={a}ngs\={a}n xihu\={a}n b\`{u} xihu\={a}n Lis\`{i}\\
+		Zhangsan like NOT like Lisi\\
+		\mytrans{Does Zhangsan like Lisi?}
+	
+	}
+	
+	\ex {
+		\glll 
+		张三 喜欢 李四 吗？\\
+		Zh\={a}ngs\={a}n xihu\={a}n Lis\`{i} ma?\\
+		Zhangsan like Lisi MA\\
+		\mytrans{Does Zhangsan like Lisi?}
+	}
+	\end{xlist}
+}
+\end{exe}
+
+However, this is not necessarily the case, and there are some differences between the two structures.
+
+Firstly, as noted by \cite{Liing2014}, they are generally viewed to be the same because when in use, they typically receive the same answer. This, however, does not mean the two question types are interchangeable. She sees MA-questions as a type of confirmation question, where the asker's already-biased stance is either confirmed or denied, while \textsc{a-not-a} questions are just yes/no questions.
+
+Secondly, likewise with the case for the \textit{h\'{a}ish\`{i}} disjunctive discussed in the previous section, the questions and their responses differ in meaning when the universal quantifier \textit{d\={o}u} is used, particularly when a negative response is given. \citep{McCawley1994} As mentioned, this is due to the ambiguity that arises due to possible differences in scope of \textit{d\={o}u}. 
+
+%\textbf{[Tabulating the below might be clearer]}
+%
+%\begin{exe}
+%
+%\ex{
+%	\textbf{[\cite{McCawley1994}, Examples 21, 23]}
+%	
+%	\begin{xlist}
+%	
+%	\ex{
+%		Tamen dou xihuan kaiche bu xihuan?\\
+%		or,\\
+%		Tamen dou xihuan bu xihuan kaiche?\\
+%		
+%		Answers: \\
+%		Xihuan. ``They do (all like to drive)"\\
+%		Bu Xihuan. "None of them likes to drive."\\
+%		Bu. "None of them likes to drive."
+%		
+%	}
+%	
+%	\ex{
+%			Tamen dou xihuan (kaiche) haishi bu xihuan (kaiche)?\\
+%			or,\\
+%			Tamen dou xihuan bu xihuan kaiche?\\
+%			
+%			Answers: \\
+%			Xihuan. ``They do (all like to drive)"\\
+%			Bu Xihuan. "None of them likes to drive."\\
+%			Bu. "None of them likes to drive."
+%			
+%	}
+%		
+%	\ex{
+%			Tamen dou xihuan kaiche ma?\\
+%			
+%			Answers: \\
+%			Xihuan. ``They do (all like to drive)"\\
+%			Bu Xihuan. "None of them likes to drive."\\
+%			Bu. "Not all of them likes to drive."
+%			
+%		}
+%
+%	\end{xlist}
+%
+%}
+%
+%\end{exe}
+
+Taking the two questions in examples (\ref{dou-quantifier-A-not-A-2}) and (\ref{dou-quantifier-MA}) below, I tabulate their possible responses (and corresponding meaning) in (\ref{A-not-A-versus-MA-table}), based on \cite{McCawley1994}.
+
+\begin{exe}
+\ex { 
+	\textbf{[Adapted from \cite{McCawley1994}, Examples 21 \& 23]}
+	\begin{xlist}
+	\ex{ 
+		\label{dou-quantifier-A-not-A-2}
+		\textbf{A-NOT-A question:}
+		\glll 
+		他们 都 喜欢 不 喜欢 开车？\\
+		Tamen dou x\v{i}huan bu xihuan kaiche?\\
+		they DOU like NOT like drive\\
+		\mytrans{Do they all like to drive?}
+	}
+	
+	\ex\label{dou-quantifier-MA} {
+		\textbf{MA-question}
+		\glll 
+		他们 都 喜欢 开车 吗？\\
+		Tamen dou xihuan kaiche ma?\\
+		they DOU like drive MA\\
+		\mytrans{Do they all like to drive? / Do all of them like to drive?}
+	}
+	\end{xlist}
+}
+\end{exe}
+
+%\begin{tabular}{|l|l|l|l|}
+% \hline
+% Question / Response  & \textbf{Xihuan} & \textbf{Bu Xihuan} & \textbf{Bu} \\
+% \hline
+% A-not-A & They do (all like to drive) & \multicolumn{2}{l|}{None of them likes to drive}   \\
+% \hline
+% MA-question & They do (all like to drive) & None of them likes to drive & Not all of them likes to drive   \\
+%\end{tabular}
+
+\begin{exe}
+\ex\label{A-not-A-versus-MA-table} {
+	\textbf{[Adapted from \cite{McCawley1994}, Examples 21 \& 23]}\\ \\
+	\begin{tabular}{|c|c|c|}
+	\hline
+	\textbf{Response / Question} & \textbf{A-not-A} & \textbf{MA-question}\\
+	\hline
+	\textbf{Xihuan} & \multicolumn{2}{c|}{They do (all like to drive)}\\
+	\hline
+	\textbf{Bu Xihuan} & \multicolumn{2}{c|}{None of them likes to drive}\\
+	\hline
+	\textbf{Bu} & None of them likes to drive & Not all of them likes to drive \\
+	\hline
+	\end{tabular}
+}
+\end{exe}
+\newpage
+As can be seen from the above, the negative responses carry the same meaning (none of the people likes to drive) in the \textsc{a-not-a} question. This is because the negator \textit{b\`{u}} is in the scope of \textit{d\={o}u} in both answers ( [ d\={o}u [ b\`{u} ] ] and [ d\={o}u [ b\`{u} xihu\={a}n ] ] ). On the other hand, the two negative responses can differ in meaning for the MA-question, because the scopes differ: with a reply of ``\textit{b\`{u} xihu\={a}n}", the negator \textit{b\`{u}} is under the scope of \textit{dou} ( [ d\={o}u [ b\`{u} xihu\={a}n ] ] ), just like it would for \textsc{a-not-a}. However, with a response of ``\textit{b\`{u}}", it is \textit{b\`{u}} that takes scope over everything else: [ b\`{u} [ d\={o}u xihu\={a}n ] ], which could be roughly translated as ``not all (of them) like" (versus ``all (of them do) not like")
+
+Thirdly, while not mentioned in the previous accounts, I suggest that the focus or topic of a MA-question is not immediately known on the syntactic level if the question is a plain, unmarked sentence such as (\ref{ma-qn-unfocused}):
+
+\begin{exe}
+\ex\label{ma-qn-unfocused} {
+		\glll 
+		张三 喜欢 李四 吗？\\ 
+		Zh\={a}ngs\={a}n xihu\={a}n Lis\`{i} ma?\\
+		Zhangsan like Lisi MA\\
+		\mytrans{Does Zhangsan like Lisi?}
+	}
+\end{exe}
+
+In the above sentence, we can have at least three different interpretations, if based solely on the syntax.
+
+%Secondly, the focus of the question in MA-questions can either be on the verb or on the complement of the verb. While not visible in the syntax, focus can be shifted to a word by stressing or emphasising it.
+
+\begin{exe}
+\ex{
+	\begin{xlist}
+	
+	\ex\label{ma-qn-focus1} {
+		\glll 
+		[张三]_F 喜欢 李四 吗？\\
+		[Zh\={a}ngs\={a}n]_F xihu\={a}n Lis\`{i} ma?\\
+		Zhangsan like Lisi MA\\
+		\mytrans{Is it Zhangsan (and not anyone else) who likes Lisi?}
+	}
+	
+	\ex\label{ma-qn-focus2} {
+		\glll 
+		张三 [喜欢]_F 李四 吗？\\
+		Zh\={a}ngs\={a}n [xihu\={a}n]_F Lis\`{i} ma?\\
+		Zhangsan like Lisi MA\\
+		\mytrans{Is it that Zhangsan likes Lisi?}
+	}
+	
+	\ex\label{ma-qn-focus3} {
+		\glll 
+		张三 喜欢 [李四]_F 吗？\\
+		Zh\={a}ngs\={a}n xihu\={a}n [Lis\`{i}]_F ma?\\
+		Zhangsan like Lisi MA\\
+		\mytrans{Is it Lisi whom Zhangsan likes?}
+	}
+		
+	\end{xlist}
+}
+\end{exe}
+
+%Similarly, each of the verbs in a multi-verb or serial-verb construction can be the focus of a MA-question,
+
+It could be argued that the verb-focused interpretation --- that is, focus being on \textit{xihu\={a}n} --- could be the default one, likely arising from it being the head of the sentence, but it does not exclude the possibility of the focus being different without any change in syntax.
+
+This is likely because the scope of \textit{m\={a}} is not explicitly observable from the sentence itself. Should focus be required, the asker will need to either rely on prosodic clues such as intonation or stress, or employ syntactic tools such as topic markers like 是 \textit{sh\`{i}}, in order to bring the elements into focus:
+
+\begin{exe}
+\ex{
+	\begin{xlist}
+	
+	\ex {
+		\glll 
+		\textbf{是} 张三 喜欢 李四 吗？\\
+		\textbf{Sh\`{\i}} Zh\={a}ngs\={a}n xihu\={a}n Lis\`{i} ma?\\
+		SHI Zhangsan like Lisi MA\\
+		\mytrans{Is it Zhangsan (and not anyone else) who likes Lisi?}
+	}
+	
+	\ex {
+		\glll 
+		张三 \textbf{是} 喜欢 李四 吗？\\
+		Zh\={a}ngs\={a}n \textbf{sh\`{i}} xihu\={a}n Lis\`{i} ma?\\
+		Zhangsan SHI like Lisi MA\\
+		\mytrans{Is it that Zhangsan likes Lisi?}
+	}
+	
+	\ex {
+		\glll 
+		张三 喜欢 \textbf{的} \textbf{是} 李四 吗？\\
+		Zh\={a}ngs\={a}n xihu\={a}n \textbf{d\`{e}} \textbf{sh\`{i}} Lis\`{i} ma?\\
+		Zhangsan like DE SHI Lisi MA\\
+		\mytrans{Is it Lisi whom Zhangsan likes?}
+	}
+		
+	\end{xlist}
+}
+\end{exe}
+
+%On the syntactic level, the change in focus can be explained by the elements that \textit{m\={a}} takes scope over.
+%\\
+%- Zhangsan [ [xihuan Lisi] ma]\\
+%- Zhangsan xihuan [ [ Lisi ] ma]\\
+%
+%Also, the focus of the MA-question in a multi-verb construction can be either of the verbs, even if they are not syntactically reflected.
+%\\
+%- Zhangsan xihuan kanshu ma?\\
+%``Does Zhangsan like (or not like) to read?"\\
+%``Does Zhangsan like to read (or not read)?"\\
+
+In \textsc{a-not-a} questions, however, there is no ambiguity in focus --- the \textsc{a-not-a} structure is always the constituent in focus --- and as such the answer to the \textsc{a-not-a} questions would therefore be directly in response to the \textsc{a-not-a} question.
+%\\
+%- Zhangsan ai bu ai Lisi?\\
+%``Does Zhangsan love (or not love) Lisi?\\
+%- Zhangsan xihuan bu xihuan kanshu?\\
+%``Does Zhangsan like (or not like) to read?"\\
+
+%As can be seen, only the \textsc{a-not-a} element is the focus of the question. (Scope, perhaps?)  
+
+Also, in a multi-verb or modal+verb construction, the \textsc{a-not-a} structure cannot be applied to the second (or non-first) verb --- focus cannot be shifted to it by means of applying \textsc{a-not-a} to it.
+
+\begin{exe}
+
+\ex{
+	\begin{xlist}
+	\ex{
+		\glll 
+		张三 喜欢 不 喜欢 看书？\\
+		Zh\={a}ngs\={a}n xihu\={a}n b\`{u} xihu\={a}n k\`{a}nsh\={u}?\\
+		Zhangsan like NOT like read?\\
+		\mytrans{Does Zhangsan like to read?}	
+	}
+	
+	\ex[*]{
+		\glll
+		张三 喜欢 看(书) 不 看书\\
+		Zh\={a}ngs\={a}n xihu\={a}n k\`{a}n(sh\={u}) b\`{u} k\`{a}nsh\={u}?\\
+		Zhangsan like read NOT read \\
+		\mytrans{Does Zhangsan like to read?}
+	}
+	\end{xlist}
+	
+}
+\end{exe}
+
+
+%As the above shows, the \textsc{a-not-a} structure does not appear to be possible for non-main verbs.
+
+%\textbf{This can perhaps be related to the \textit{dou} quantifier and scope?}
+
+%They argued that the L \% low-boundary tone serves as an intonational morpheme that is reflective of the deep assertion structure initially proposed by \citep{Huang1991}. 
+
+\cite{Yuan-Hara2013} proposed that MA-questions are simple questions, while \textsc{a-not-a} questions have the additional assertion of ignorance on the asker's part. They suggested that MA-questions can be neutral or biased (towards assertion \textit{p}, but never to $\neg$\textit{p}), whereas \textsc{a-not-a} questions can only be neutral. This was based on \textbf{Gunlogson (2003)} ``biased context" concept: when assertion \textit{p} is publicly asserted whereas $\neg$\textit{p} is not, then the context is biased towards \textit{p}. Therefore, since MA-questions make only one visible (public) proposal (\textit{p}), they can be biased towards \textit{p}, while \textsc{a-not-a} questions, with both \textit{p} and $\neg$\textit{p} being asserted, remains neutral. 
+
+However, I believe there are counter-examples for MA-questions where the non-asserted $\neg$\textit{p} could be the intended/biased proposal. Imagine a scenario where our protagonist Zhangsan was given a certain task, in which his competence is doubted. In such a case, the doubter might ask the following to another person:
+
+\begin{exe}
+	\ex{
+		\glll 
+		张三 会 做 吗？\\
+		Zh\={a}ngs\={a}n h\`{u}i zu\`{o} m\={a}?\\
+		Zhangsan know do MA?\\
+		\mytrans{Does Zhangsan (really) know how to do (it)?}
+	
+	}
+\end{exe}
+
+In this scenario, the person could be posing the question in mild disbelief or even mockery, and thus the question could instead be biased to assertion $\neg$\textit{p}, that the subject \textit{Zhangsan} does not actually know how to do something. In other words, while MA-questions do not overtly assert the $\neg$\textit{p}, they can still be biased towards that, given the right context. 
+
+%\textbf{(Does this mean it is neutral? Or that the bias is more contextual? Sarcasm? Pragmatics?!)}
+
+In such a use, this variant of MA bears close resemblance (but not identical) to Cantonese \textit{me1}, which is biased towards $\neg$\textit{p} (Lam 2001, Yuan et Hara 2014)
+
+\begin{exe}
+	\ex{
+		\glll 
+		张三 识 做 咩?\\
+		Zeong1saan1 sik1 zou6 me1?\\
+		Zhangsan know do ME?\\
+		\mytrans{Does Zhangsan (really) know how to do (it)?}
+	
+	}
+\end{exe}
+
+%\textbf{(Hmm... more on this later?)}
+
+%\subsubsection{NE-questions}
+%
+%\cite{Liing2014} argues that 呢 \textit{n\={e}} is not a question marker, as questions can be formed without it, and that it ``merely presents speakers as not presupposing that the addressee knows the answer", and is thus an \textit{open question}. In other word, unlike other questions where the addressee is presupposed to know the answer. 
+%
+%As such, unlike the other sentence-final particles, \textit{n\={e}} can occur in \textsc{a-not-a} questions.
+%
+%\subsubsection {WH-questions}
+%%{WH-words} and {A-not-A} can be both interrogative and existential. However, [...]
+%
+%In Mandarin Chinese, there are a few types of WH-words which can be used for WH-questions, including 什么 \textit{shenme} ``what", 为 什么\textit{wei shenme} ``why", 谁 \textit{sh\'{u}i} ``who", 哪里 \textit{n\'{a}li} ``where", 怎样 \textit{zeny\`{a}ng} ``how", among other variants. Unlike in English, there is no WH-movement in Mandarin Chinese, and it is instead \textit{in-situ}.
+%
+%WH-questions and \textsc{a-not-a} questions are similar in that they: 1) are both subject to island constraints, 2) can be used in both interrogative and non-interrogative sentences.
+%
+%\begin{exe}
+%	\ex {\textbf{Random sentences... sort them out if needed}}
+%	\begin{xlist}
+%		\ex { ni weishenme xihuan kanshu? }
+%		\ex[*] { ni xihuan weishenme kanshu? }
+%		\ex[*] { ni shenme xihuan ren? }
+%		\ex { ni xihuan shenme ren? }
+%	\end{xlist}
+%
+%\end{exe}
+%
+%
+%Compared to each of these forms, \textsc{A-not-A} questions share various similarities and differences.\\
+%- 
+%- Disjunctives and A-not-A are highly similar, and \textsc{A-not-A} was believed to simply be derived and generated from the disjunctive. Huang (1991), however, put this belief to rest more than two decades ago. \textbf{(This is extracted from the Literature Review...)}\\
+%- Yes-no questions are formed with the sentence-final particles m\={a}, n\={e}, b\`{a}, among others, and the answers which come from such a question can be either \textsc{yes} or \textsc{no} (or for the less decisive, \textsc{maybe}). Semantically, these questions differ in the questioner's expectations \textbf{from Yuan \& Hara}. \textsc{A-not-A} makes a question (\textit{p}) as well as an assertion of either \textit{p} or $\neg$\textit{p}, a tautological assertion which always result in true.). 
+
+%\subsection{A-not-A as a question type}
+%
+%Now that we have seen the other question types, and gained an idea of what \textsc{a-not-a} is \textit{ not}, what, then is the \textsc{a-not-a} question type?
+%
+%\cite{Huang1991} and \cite{McCawley1994} have shown us that the \textsc{a-not-a} question is a disjunctive question type that is distinct from the \textit{h\'{a}ish\`{\i}} disjunctive.
+%
+%\cite{Liing2014}, however, believes this as a fundamental misunderstanding of the \textsc{a-not-a} question type, and states that the differences between the \textsc{a-not-a} and \textsc{a haishi not-a} question types arise not from just being different disjunctive types, but rather from being completely \textit{different question types} altogether. As such, she believes the accounts that attempts to provide a way to transform the \textsc{h\'{a}ish\`{\i}} disjunctive into \textsc{a-not-a} is not essential in the first place.
+%
+%She posits that \textsc{a-not-a} questions are in reality making only \textit{one} proposition, which is that of (\textit{p}) instead of asking (\textit{p} $\vee$ $\neg$\textit{p}). This therefore makes it a yes/no question instead of a disjunctive question. 
+%
+%
+%
+%[... ... ...]
+%
+%On the surface, the \textsc{a-not-a} structure poses two possible choices for the responder. In such a structure, the asker asserts ignorance on which of the two choices are true, as both are suggested.
+%
+%What type of question is the A-not-A?
+%
+%More from Liing.
+%
+%Yuan and Hara (2013)??
+%
+%Semantics? Is there a single predicate or two predicates coordinated with an invisible co-ordinant?
+
+%\subsection{What is the basic form?}
+
+%Some studies view the \textsc{AB-not-AB} form as the basic form (and thus term that simply as A-not-A), while the basic form in this paper is the \textsc{A-not-AB} form. The reason why this analysis takes a different approach will be explained in \S X on the basic \textsc{A-not-A} structure.
+
+\newpage
+
+\section{Existing Accounts}
+
+\textbf{(These could be integrated organically with the introduction, instead of being a distinct Lit. Review section)}
+
+%Most of the studies which were conducted on this structure have been based on a different grammatical framework (notably the Government and Binding Theory (cite??)). 
+
+%[Huang 1982's part here?]
+
+The A-not-A structure has seen extensive research in the past decades. Among the early accounts of this structure is \cite{Huang1991}, who suggested that \textsc{a-not-a} questions are generated by having an \textsc{a-not-a} question operator targeting the intended element, duplicating it, and then inserting the appropriate negator between. He then provided an account of the different variations of \textsc{a-not-a}.
+
+As we have seen in an earlier section, prior to \cite{Huang1991}, it was generally believed that the A-not-A structure was a derivative of the \textit{h\'{a}ish\`{i}} disjunctive structure, and that the former was generated from the latter simply by the removal of \textit{h\'{a}ish\`{i}}. While admitting their possible historical connection, he states that the structures are not direct derivatives of each other, and that the \textsc{a-not-a} structure is distinct and has its own rules and constraints.
+
+%However, as Huang went on to show, this was not the case, and that the \textsc{A-not-A} structure is distinct and has its own rules and constraints.
+
+Huang's account, however, was not entirely complete or entirely valid. In particular, \cite{McCawley1994} remarked on the \textsc{a-not-a} structure, and addressed as well as expanded upon the points brought up by \cite{Huang1991}. He pin-pointed Huang's vague account of the \textsc{not} element, stating Huang's failure to state the presence of there being two types --- \textit{b\`{u}} and \textit{m\'{e}i} --- each of which are used under different circumstances.
+
+\textbf{Huang et. al. (2009)} made modifications to his initial appraisal/analysis's oversight, by stating that the \textsc{not-a} part of the structure is generated based on morphologically-motivated reasons. The \textsc{not} element is no longer inserted as an independent element, but is instead borne from the appropriate negation of the second \textsc{a} element (\textsc{a_2}), and that the aspectual properties of \textsc{a} will determine the form of the negator.
+
+\cite{Liing2014} made similar criticisms of the analysis in \cite{Huang1991} as well as \textbf{Huang et. al. 2009}. She said that although the latter paper had extended its coverage of the \textsc{not} element, it was still inadequate because it failed to take into account all of the restrictions on negation. Furthermore, morphological rules will not have accounted for situations where the same character/word can be negated by either negator:
+
+\begin{exe}
+
+\ex{
+	去 不 去\\
+	qu bu qu\\
+	``Are you going?"
+}
+
+\ex {
+	去 没 去\\
+	qu mei qu\\
+	``Have you gone (somewhere)" 
+}
+
+\end{exe}
+
+\cite{Liing2014} further claims that \textsc{a-not-a} questions are not disjunctive questions, and that attempts to see them as such are wrong. 
+
+
+\cite{Ernst1994} looked at the combination of adjuncts with A-not-A, and highlighted that many adjuncts such as \textit{y\'{i}d\`{i}ng} ``definitely" and \textit{lu\`{a}n} "chaotically" cannot be used with or modify \textsc{A-not-A}, but certain adjuncts such as \textit{j\={\i}ngti\={a}n} ``today" can be used. It was proposed that the latter types of adjuncts behave in an argument-like manner
+
+%The study centers on the \textsc{Isomorphic Principle}, first proposed by [LINGUIST]. The Principle serves as a rule binding the Surface Structure with the Logical Form, by stating: \textit{If A commands B in the Logical Form, then A must also command B in the Surface Structure.}
+
+\cite{Law2001} and, later,
+\cite{Law2006} investigate this further. (Draft Note: I've only just added this section; still preparing this section)
+
+A particularly distinct account is \cite{Gasde2001}, who approached the structure with the premise of Chinese being originally SOV. He argued that the underlying deep structure (DS) of an \textsc{a-not-a} structure --- or any existing SVO sentence, for that matter --- is in fact SOV, and is realised as thus:
+
+\begin{exe}
+
+\ex{
+	From \citet{Gasde2001}, Examples 4.11, 4.12
+	\begin{xlist}
+	\ex {
+	
+		\gll[~ni [ di\`{a}nying k\`{a}n-b\`{u}-k\`{a}n~]~]\\
+		~you ~ movie watch-not-watch\\
+		
+	}
+	
+	\ex {
+	
+		\gll[~ni [ di\`{a}nying k\`{a}n-b\`{u}~]\\
+		~you ~ movie watch-not\\
+		
+	}
+	\end{xlist}
+	
+}
+\end{exe}
+
+The constituent \textit{k\`{a}n-b\`{u}-k\`{a}n} is made up two components: the stem \textit{k\`{a}n} and what he termed the ``semi-suffix", which is \textit{b\`{u}-k\`{a}n} in (Xa) and \textit{b\`{u}} in (Xb). These semi-suffixes, he suggests, ``can be `taken along' or `left behind'" when generating the final structure. As such, the \textsc{a-not-a} structure can be realised by the movement (or ``staying") of the components, and the corresponding traces still in place. This, as he claims, properly accounts for sub-patterns of \textsc{a-not-a}, such as \textsc{a-not-ab}, \textsc{ab-not-a} and even \textsc{a(b)-not}.
+
+\begin{exe}
+\ex{
+	From \citet{Gasde2001}, Examples 4.1', 4.2', 4.9'
+	\begin{xlist}
+	\ex {
+	
+		\gll[~ni k\`{a}n-b\`{u}-k\`{a}n_i [ di\`{a}nying \textit{t_i}]~]\\
+		~you watch-not-watch ~ movie\\
+		
+	}
+	
+	\ex {
+	
+		\gll[~ni k\`{a}n_i [ di\`{a}nying \textit{t_i} -b\`{u}-k\`{a}n]~]\\
+		~you watch ~ movie ~ -not-watch\\
+		
+	}
+	
+	\ex {
+		
+		\gll[~ni k\`{a}n_i [ di\`{a}nying \textit{t_i} -b\`{u}-k\`{a}n]~]\\
+		~you watch ~ movie ~ -not\\
+			
+	}
+	
+	\end{xlist}
+	
+}
+\end{exe}
+
+
+He states that only verbs are possible elements of the structure, and appropriately only dealt with it in his study. However, as noted, other parts-of-speech like adjectives, adpositions and nouns can be involved in A-not-A. 
+
+%\textbf{Nonetheless, movement is not something we will deal with in HPSG}
+
+\cite{Huang2008} explores a possible variant of A-not-A questions known as VP-neg questions. In such a variant, the right \textsc{A} is completely elided, with \textsc{not} marking the end of the sentence, thus making a type of \textsc{A-not} structure:
+
+\begin{exe}
+\ex{
+	\gll Zh\={a}ngs\={a}n x\^{\i}hu\={a}n gou bu?\\
+	Zhangsan like dogs NOT\\
+	\mytrans{Does Zhangsan like dogs or not?}
+}
+
+\ex{
+	\gll Zh\={a}ngs\={a}n sh\`{u}iji\`{a}o-le mei(you)?\\
+	Zhangsan sleep-PERF NOT\\
+	\mytrans{Has Zhangsan slept or not?}
+}
+\end{exe}
+
+This structure has also been called the \textsc{VP-neg question} structure or \textsc{negative particle question} structure, and Huang has been deemed it ``controversial'' as there has been no consensus among linguists on whether the \textsc{VP-neg} form is a reduced/derived form of \textsc{A-not-A}.
+
+Overall, the existing accounts had relied heavily on the mechanisms of movement and transformations in order to account for the \textsc{a-not-a} structure. These mechanisms, however, are not subscribed to in the HPSG formalism, which instead works on a constraint-based approach. As such, while the main observations of the \textsc{a-not-a} structure in the existing accounts can be used as reference (including observations such as occurrences, grammaticality, restrictions, etc), the actual mechanisms and analyses will have to be re-thought for my account.
+
+\subsection{Restrictions on A-not-A}
+
+Apart from the basic features investigated in the previous sections, there are also addition constraints and restrictions on the occurrence of the \textsc{A-not-A} structure.
+
+\subsubsection{On the Modifiability of A-NOT-A}
+
+%\textbf{\cite{Tseng2009} suggests that the \textsc{a-not-a} operator, from higher up the tree, lowers and attaches itself to the nearest morpho-syntactic word.}
+
+To recall, \cite{Ernst1994} and \cite{Law2006} had noted the difference between different types of adjuncts/adverbs in terms of their ability or inability to modify \textsc{A-not-A} structures, such that adverbs like \textit{y\'{i}d\`{i}ng} ``definitely" are forbidden while those like \textit{j\={\i}nti\={a}n} "today" are permitted.
+
+The restrictions discussed in those studies, however, occur on the \textsc{a-not-a} \textit{phrase} level. It should be noted that modification of the \textsc{a} elements themselves is also not allowed. For example, \cite{McCawley1994} as well as \cite{Liing2014} noted the restrictions on negation for \textsc{a} elements which already has a negative element as its first character/syllable. As stated, this was in part, this has been attributed to the already-present negative element in the \textsc{a-not-a} structure.
+
+Additionally, as described in the \S X.x, \cite{McCawley1994} has also noted that the predicate phrases modified by elements such as the degree adverb \textit{hen} ``very" and adverbs such as \textit{zhi} ``only" and \textit{ye} ``also" are not permitted, nor can these elements be the \textsc{a} element in \textsc{a-not-a}. In fact, \textit{any} modification of the \textsc{a} elements does not appear to be permitted, not just degree adverbs, or \textit{zhi} and \textit{ye}.
+
+%haochi bu haochi (it's just ADJ-not-ADJ)
+
+%\begin{exe}
+%
+%\ex[*]{
+%	\gll Zhangsan hen xihuan bu hen xihuan gou?\\
+%	Zhangsan very like NOT very like dog?\\
+%	\mytrans{Does Zhangsan like dogs very much?}
+%}
+%
+%\end{exe}
+
+%This restriction, however, might not be as apparent for post-modifying aided by the use of \textit{d\'{e}} in the \textsc{verb + DE + adverb} structure (relative-clause modifying?).
+%
+%\begin{exe}
+%
+%\ex[??]{
+%	\gll Zhangsan chi de kuai bu chi de kuai\\
+%	Zhangsan eat DE fast NOT eat DE fast?\\
+%	\mytrans{Does Zhangsan eat fast? Did Zhangsan eat fast?}
+%}
+%
+%\end{exe}
+%
+% Based on a quick poll, native acceptance of this structure is flaky at best (\textbf{Straw poll judgements are not enough!}). This could likely be due to the cumbersome nature of repeating a longer element (similar to that faced by a full \textsc{VP-not-VP} structure), and the elision of the DE-clause (?) in \textsc{A_1} --- to become a the Basic Form --- is generally preferred.
+
+\subsubsection{Sentence-Final Particles}
+
+Not all sentence-final particles (SFPs) can be used with \textsc{a-not-a} questions, for a variety of reasons. For instance, the SFP variant of 了 \textit{l\`{e}} cannot be used \textsc{a-not-a} because it can only take a declarative or proposition under its scope, and cannot have scope over a question. Likewise, the SFP 吗 \textit{m\={a}} cannot take scope over \textsc{a-not-a} because it is already a question.
+
+%SFPs such as 呢,啊,呀,etc, however, are permitted to be used with \textsc{a-not-a} questions because they do not have any restriction on the \textsc{mode} of the element that comes under their scope, except that they cannot already be 
+
+%
+%- The use of SFPs are heavily restricted in A-not-A\\
+%- The use of SFP LE is not permitted, as it can only be ``attached" to a declarative or proposition, and not a question --- that is, it cannot have scope over a question. Likewise, the question-marker SFP \textit{m\={a}} can also not be used in conjunction with \textsc{a-not-a} structure, as the latter structure is already a question.
+
+%
+%An addition constraint of [CONT.[...].INDEX.SF \textit{prop}] is added to the COMPS of the aspectual marker's lexical type \textsc{crs-lex-item}\\
+%- The use of SFP \textit{n\={e}} is, however, permitted, as it maintains the QUES mode.\\
+%- The use of SFP \textit{m\={a}} runs contrary to that of A-not-A. Why? A \textit{m\={a}} question is one where there is already a bias (Don't you like dogs?), and can have a truth value of either \textsc{true} or \textsc{false}. On the other hand, an \textsc{A-not-A} question is one where either can occur, and the truth value of the A-not-A question/phrase will --- tautologically --- always be \textsc{true}.
+
+\subsubsection{Co-occurrence with ZHE-LE-GUO}
+
+This restriction on modification extends to the post-modifying elements 着 \textit{zh\`{e}}, 了 \textit{l\`{e}} and 过 \textit{gu\`{o}}. These elements, which I'll refer to collectively as the \textsc{zhe-le-guo} markers, serve as aspectual markers. ZHE is the durative marker, LE indicates the perfective and GUO indicates the experiential aspect. 
+
+As a whole, aspectual markers are not necessarily permitted with the \textit{b\`{u}}-form of \textsc{a-not-a}. The marker \textit{gu\`{o}}, however, can co-occur if used with the \textit{m\'{e}i}-form \textsc{a-m\'{e}i-a} structure. This restriction is identical to that of an ordinary negative sentence involving \textit{\`{bu}} or \textit{m\`{e}i}.
+
+As with the ordinary negation, \textit{b\`{u}} modifies states and imperfectives, while \textit{mei} modifies bound events and perfectives.
+
+%\textbf{Will need to look at literature for MEI and BU, since their uses here are similar; Ernst's paper on Negation is a good start}
+
+\subsubsection{Quantified Subjects}
+
+A property particular property of \textsc{a-not-a} questions first noticed by \cite{Wu1997} is the restriction on quantified noun phrases (NP) in subject position, as the following examples show:
+
+The first instance is highly ``deviant" (which Wu reasoned is due to the ambiguity that arises from \textit{meigeren} being either a quantifier or a group-denoting NP), while the remaining two are completely unacceptable.
+
+This, as a result, makes it different from typical yes/no questions. Wu first establishes that an \textsc{a-not-a} question is made up of two ``cells" which are mutually exclusive but jointly exhaustive, which means they cover all sets of possibilities --- there is no third option. While this gels with referential NPs as the subject, it does not with quantified NPs because such NPs consist of many members, each of whose truth value pertaining to the \textsc{a-not-a} question might differ. Thus, their choices will become non-mutually-exclusive and non-jointly-exhaustive, which should not be possible with \textsc{a-not-a} questions. Therefore, such questions are semantically anomalous.
+
+%A second point mentioned by Wu is the scope of the negator. With referential NPs, the scope of the negator, be it restricted to the predicate or the entire sentence, does not affect the interpretation of the sentence. However, interpretations can be different with quantified NPs, as they can be logically different, as Wu presented:
+%
+%$\neg\forall$x (Px)\\
+%$\forall$ ($\neg$Px)
+
+每个人都跑步跑？
+
+他们跑不跑？
+那些学生跑步跑
+他们都跑不跑
+那些学生都跑不跑
+
+Group-denoting NPs are viewed as a whole, instead of individually.
+The presence of \textit{d\={o}u} changes the NP from being group-denoting to a universal quantifier and gives it a more distributive interpretation, and therefore provides an individual-based view.
+
+他们买了一本书 - They all bought a book.
+他们都买了一本书 - They each bought a book.
+
+
+He addresses the possible counterexample where such quantified phrases are permitted when the \textsc{a} element is the copula 是 \textit{sh\`{i}}:
+
+BE-not-BE can only precede the quantified NPs.
+是不是 每个人 都 跑？
+*每个人 都 是不是 跑？
+
+是不是 有人 跑？
+*有人 是不是 跑？
+
+是不是 没有人 跑？
+*没有人 是不是 跑？
+
+It can, however, precede or proceed referential NPs.
+
+
+
+\newpage
+
+\section{Purpose and Scope}
+
+My main purpose for this project is two-fold: First, it is to derive a formal HPSG account of the \textsc{a-not-a} structure. Secondly, it is to implement said account into the \textit{Zhong} grammar developed by the Nanyang Technological University (NTU), Singapore. This implementation will only be performed on the initial stage
+
+During the course of the implementation, limitations with the current grammatical system were also encountered. These will be noted, and proposed changes will be stated wherever possible.
+
+
+%This study looks at the various studies that had been performed on the structure, and makes an attempt to: 1) re-factor and formalised these based on the Head-driven Phrase Structure Grammar (HPSG) framework, and 2) to implement said formalisation into the ZHONG grammar () developed by the Nanyang Technological University (NTU), Singapore. 
+
+The literature reviewed thus far has indicated several rules and constraints of the \textsc{a-not-a} structure, all of which will ideally need to be accounted for in order to have an extensive coverage of the phenomenon. However, in order to tame the scope for this paper, not all of these will be looked into and accounted for. Instead, I will address the following most basic and common instances of \textsc{a-not-a}:
+\begin{itemize}
+\item \textbf{Basic A-not-A}
+	\begin{itemize}
+	\item The basic pattern, with \textsc{a} fully reduplicated.
+	\end{itemize}
+\item \textbf{Basic A-not-A (contracted)}
+	\begin{itemize}
+		\item The partially reduplicated pattern, where only the first character is reduplicated.
+	\end{itemize}
+\item \textbf{VP-not-VP / AB-not-AB}
+	\begin{itemize}
+		\item Where B represents the object of a verb being used as A.
+		\end{itemize}
+\item \textbf{AB-not-A}
+\item \textbf{A-not-AB}
+
+\end{itemize}
+
+I will also explore in brief other patterns of \textsc{a-not-a}. 
+%\textbf{Perhaps this can be moved to the top section of INTRODUCTION?}
+
+\begin{itemize}
+\item \textbf{VV-compound as A element}
+\item \textbf{VP-neg}
+\end{itemize}
+
+In addition, the present analysis will also include the restrictions imposed on the \textsc{a-not-a} structure in terms of where and when it can and cannot occur, as well as the elements which can be used in conjunction with it.
+
+To further reduce the complexity for the present paper, the analysis as well as the implementation for the \textit{Zhong} grammar will attempt to cover only simple sentences and questions that contain only a single clause. Therefore, sentences with embedding will not be implemented at the current stage.
+
+These structures will be further elaborated in the next section, where an analysis will be provided for each of the above.
+
+Although it has been shown in the previous sections that the \textsc{a-not-a} structure can be used in a non-interrogative sentence, similar to how WH-words can be embedded in a declarative sentence, such a usage arguably behaves in a slightly different way, with its own sets of constraints --- particularly in the semantics. As such, for the sake of scope, this paper will only focus on the interrogative and non-embedded usage of \textsc{a-not-a}.
+
+\newpage
+
+\section{HPSG Account}
+\subsection {Groundwork}
+%\subsubsection {The NOT in A-NOT-A}
+%
+%\textbf{WJ: I am a little uncertain about this section at the moment}
+%\textbf{[Possibly shift this to an earlier section]}
+%\\
+%To reiterate, the \textsc{not} element can be either b\`{u} or m\'{e}i, depending on the aspect of the \textsc{a} elements being used: \textit{B\`{u}} is used as a negator of states and imperfectives \textit{m\'{e}i} as a negator of bound actions and perfectives.
+%
+%% Explain the NOT in a normal sentence and NOT in A-not-A. I believe they are not exactly the same.
+%
+%A question which lingered was whether \textsc{not} in the \textsc{a-not-a} structure was identical to that of a regular negator in a declarative.
+%
+%Citing then-recent works by C.Huang \& Magione (1985) and J Huang (1988), \cite{Ernst1995}'s study on Chinese negations concurred that in sentences with a main verb and adverbial predicate, \textit{b\`{u}} cannot negate the main verb but can only negate the adverbial predicate:
+%
+%\begin{exe}
+%
+%\ex{
+%	\gll Ta jiang de qingchu\\
+%	he speaks DE clear\\
+%	\mytrans{He speaks clearly}
+%
+%}
+%
+%\ex{
+%	\gll Ta bu jiang de qingchu\\
+%	he NOT speak DE clear\\
+%	\mytrans{He does not speak clearly}
+%
+%}
+%
+%\end{exe}
+%
+%It is suggested by \textbf{Huang (1988, cited in Ernst [1995])} that \textit{b\`{u}} is a clitic to the main verb and is under the scope of the manner adverb. This results in anomalous semantics, as an event that did not occur (due to negation) cannot thus have been done in some manner.
+%
+%This restriction, however, does not appear to be as strict (or is the only possibility?) in the \textsc{a-not-a} structure:
+%\\ \\
+%- ta jiang bu jiang de qingchu? \\
+%- ta jiang de qing(chu) bu qingchu? \\
+%- ta pao bu pao de kuai? \\
+%- ta pao de kuai bu kuai? \\
+%- ta du bu du de tong? \\ 
+%- ??ta du de tong bu tong? \\
+%
+%The above \textsc{a-not-a} sentences suggest a slightly different behaviour for \textit{\`{bu}}, since it can now be used in a situation where it would not be allowed to as a standalone. However, this could also be due to the nature of \textsc{a-not-a}: it being a interrogative structure permits cancels out the anomalous semantics mentioned earlier.
+%
+%In both cases, my analysis takes the view that \textsc{not} in \textsc{a-not-a} structures does not function as a true negator \textbf{(McCawley/Law seems to disagree?!)}, and it does not affect the polarity of the \textsc{a} element. This requires additional lexical entries for these variants of b\'{u} and m\'{e}i, distinct from their negator counterparts. 
+%
+%[Insert lexical entry here?]
+%
+%Similarly, additional lexical rules are also created for these variants. Center to these lexical rules are 1) the complements \textsc{not} select for, and 2) the element \textsc{not} will modify. The present analysis presents that each \textsc{a} element will play either of these roles. Therefore, in \textsc{A_1-not-A_2}, the element \textsc{A_1} will be the \textit{complement} while \textsc{A_2} will be the element \textit{modified} by \textsc{not}.
+%
+%%\subsubsection{The NOT element: Usage of b\`{u} and m\'{e}i}
+%
+%%[Detail the difference between BU and MEI]
+%
+%%While this analysis takes the view that the \textsc{not} element is not strictly a negator (but behaves more like a coordinator), the environments the different \textsc{not} elements can occur in is similar to their negator counterparts.
+
+\subsubsection{A-not-A as coordinate structure?}
+
+In an earlier section, I covered the analysis by \cite{Huang1991} and \cite{McCawley1994} which disputes the direct derivation of \textsc{a-not-a} from the coordinate disjunctive \textsc{a \textit{haishi} not-a}. Instead, they claim that it is a distinct disjunctive question type. The differences between the two question types was later brought by \cite{Liing2014} to mean that \textsc{a-not-a} is not, in reality, a disjunctive question to begin with.
+
+Could it then be that the \textsc{a-not-a} structure is not even a coordinate structure at all? Firstly, \cite{Huang1991}'s mention of the apparent violation of the Directionality Constraint by \textsc{a-not-a} suggests that it differs somewhat from standard coordinate structures. \cite{McCawley1994}'s examples about the non-interchangeability of the supposed coordinates (the \textsc{a} elements) in \textsc{a-not-a} lend further support to the idea that the structure might not be an actual coordinate structure, since in most coordinated structures, the coordinated elements are interchangeable, at least on the syntactic level.
+
+%Another difference is the scope of \textit{b\`u}. Using an example from \textbf{(Ernst 1995:671)}, the negator can take a narrow scope in a multi-verb sentence:
+%
+%\begin{exe}
+%
+%\ex {
+%
+%	\gll ta keyi bu qu\\
+%	he can not go\\
+%	\mytrans{He can [not go]}
+%
+%}
+%
+%\end{exe} 
+%
+%However, using an earlier example (X), duplicated as (X), we see such a structure is not paralleled in \textsc{a-not-a} statements:
+%
+%\begin{exe}
+%
+%\ex[*] {
+%	\gll ta keyi qu bu qu\\
+%	he can go not go\\
+%	\mytrans{He can [go or not go]}
+%}
+%
+%\end{exe} 
+%
+%\textbf{The other examples brought up by Liing 2014 should also be used here}
+%
+%It shows that while \textsc{a} and \textsc{not-a} can be used separated in the above sentences, they cannot be used once combined in \textsc{a-not-a}. This, however, should be possible if it were a normal coordinate structure, as long as the head of the coordinated elements are the same?
+%
+%\textbf{FLIMSY! DON'T USE THIS...??}
+%
+%
+%The general behaviour of coordinate structures is that the coordinated elements are each able to stand on their own, and by extension, 
+%
+%This suggests perhaps that structurally, \textsc{a-not-a} is not simply a coordinated structure of two propositions \textit{p} and \textit{$\neg$p} or predicates. Secondly, it illustrates that the negator \textsc{not} does not behave as would be expected from negators in ordinary (non-\textsc{a-not-a}) situations, and could thus be considered distinct from those.
+%
+%%\textbf{However, we see earlier that the adjunct itself can play a role in the suitability of \textsc{a-not-a}, and that whether it is a coordinated structure or not might not have anything to do with this restriction. The first verb here might be  MORE ON THIS?!!! }
+%
+%This differs from the \textit{haishi} disjunctive, which can be argued to be a structure that truly coordinates two arguments:
+%
+%\begin{exe}
+%
+%\ex {
+%	\gll ta keyi qu haishi bu qu\\
+%	he can go HAISHI not go\\
+%	\mytrans{He can [go or not go]}
+%}
+%
+%\end{exe} 
+%
+%
+%\textbf{[This section needs some rework]}
+%This difference, however, could be explained if we look at the \textsc{not-a} element in the \textit{h\'{a}ish\`{i}} disjunctive as an ellipsed form, and that \textit{h\'{a}ish\`{i}} is actually coordinating \textit{ta keyi qu} and \textit{ta keyi bu qu} --- that is, the projection for \textit{haishi} is much wider than \textsc{a-not-a}: and can extend ``upwards", whereas \textsc{a-not-a} can only command what is in its scope.
+
+
+\subsubsection{Character/Syllable List}
+
+The implementation of the structure necessitates the comparison of the elements on either side of the negator. To do so in the \textit{Zhong} grammar will require that the above-mentioned lexical rules be able to ``see" the characters or syllables \textbf{(we use these two interchangeably as a character represents a syllable in Chinese)} of each lexical entry. As such, in addition to the existing features of a lexical entry, this analysis proposes the addition of two new features, \textsc{wchar} and \textsc{fchar}, both of type \texttt{string}. These are the whole word and the first character, respectively. It also proposes the addition of a \textsc{length} feature, of a custom type \textit{length}. This has two possible values: \textit{one} and \textit{more-than-one}, for a word which has one character or multiple characters, respectively.
+
+Both of these features are implemented as part of the \textsc{head}, and \textsc{wchar} is identical to the \textsc{stem} (\textsc{orth}) while \textsc{fchar} includes only the first character. These are illustrated with the following example lexical entries for the verbs 叫 \textit{ji\`{a}o} ``to call" and 喜欢 \textit{x\^{i}hu\={a}n} ``to like":
+
+\begin{exe}
+\avmvskip{.5ex}\avmhskip{3em}
+\ex{
+\begin{avm}
+[\tp{word} \\ STEM & @1 < `叫' > \\
+	%HEAD|CHAR & [ 	
+					FCHAR & `叫' \\ 
+				  	WCHAR & @1 \\
+				  	LENGTH & one 
+	%			 ]
+
+ ]
+\end{avm}
+}
+
+\ex{
+\avmvskip{.5ex}\avmhskip{3em}
+\begin{avm}
+[\tp{word} \\ STEM & @1 <`喜欢'> \\
+%	HEAD|CHAR & [ 	
+					FCHAR & `喜' \\ 
+					WCHAR & @1 \\
+					LENGTH & more-than-one 
+	%			]
+
+ ]
+\end{avm}
+}
+
+\end{exe}
+
+The roles of each of these features will be detailed in the \S 4.2 on the basic form.
+
+\subsubsection{The Headedness of A-not-A}
+
+In the existing accounts covered, the head of the \textsc{a-not-a} structure is one of the \textsc{a} elements, and the generation of the \textsc{a-not-a} structure begins from this head, with reduplication, elision and negation applied to it or its copy. However, whether that be \textsc{a_1} or \textsc{a_2} differs from analysis to analysis, depending on where the analysis determines this ``starting point" to be. This, of course, poses a problem.
+
+The presence of two syntactically identical elements (even if only partially reduplicated) makes it difficult to convincingly determine which of the two should be the head.
+
+A possibility is there actually being two heads belonging to two separate predicates that is joined by a non-overt/unseen conjunction, as is typical of a coordinate structure. However, as discussed in an earlier section, there is some reason to believe the \textsc{a-not-a} is not a coordinating structure, or one which is sufficiently different from the typical coordinating structure.
+
+On the other extreme is the possibility that the \textsc{a-not-a} structure could be non-headed, making it similar to proposed analyses for serial-verb constructions (see \cite{Mueller2009} for more). But unlike serial-verb constructions where the two or more verbs involved are different, the \textsc{a} elements in \textsc{a-not-a} constructions are identical or near-identical, one essentially a copy of the other. This suggests the presence of a single head, with the other being ``vestigial" to the other. The idea of a non-headed structure is, of course, also slightly uncomfortable, taking into account the ``head-driven" nature of HPSG.
+
+%Which \textsc{a} element --- \textsc{a_1} or \textsc{a_2} --- should be the head, then? 
+
+Based on what we know about the \textsc{a-not-a} structure, \textsc{a_1} can be elided to have only its first character remaining. Such a form is usually unable to stand on its own outside of \textsc{a-not-a} or other reduplicative sequences, making it a bound or even ``parasitic" form. On the other hand, the \textsc{a_2} element must preserve its integrity and cannot be separated or decomposed further, making it a better candidate to be the head. However, despite this, the bound form is apparent only on the morphological level; on the syntactic and semantic level both \textsc{a} elements are still the same, so this admittedly is not a strong case. Of course, for purely arbitrary and aesthetic reasons, the completeness of \textsc{a_2} would still be an attractive candidate as the head. 
+
+%IDEA: The addition of NOT-A as merely a question marker?!
+
+The seemingly ``monolithic" nature of \textsc{a-not-a} --- that is, nothing can apparently come between the structure --- makes it difficult to apply headedness tests that requires mechanisms such as movement or modification of the individual components. This monolithic structure could also lend support to the idea that the \textsc{a-not-a} structure could be a single, ``morphological word" that is a single predicate. In this case, whether \textsc{a_1} or \textsc{a_2} is the head might actually be unimportant, because the head is simply \textsc{a}.
+
+In a previous section, I brought up \cite{Liing2014}'s claim that \textsc{a-not-a} questions are not disjunctive questions but are instead yes/no questions. In other words, there is only one proposition (\textit{p}), whose truth value is determined by the responses ``yes" or ``no". In this way, Liing's account also adds credence to the notion of a single predicate upon which the truth value is solely determined.
+
+The lack of a definitive answer (at the moment) for this suggests the possibility of two different ways to approach \textsc{a-not-a}, particularly in the area of parsing. I have elected to mainly focus on the non-monolithic approach, in order to have a better account of the mechanics behind \textsc{a-not-a}. I will, however, still briefly mention the ``monolithic" approach in a later section. 
+
+%Using common headedness tests... erm... Common tests for headedness would fail here?? 1) Tendency of heads to be left? 2) Modifiability of the head? (A-not-A cannot be modified... but if we count BU as a modifer...)
+
+%In my account, the \textsc{a} element remains the head. However, the formation of the phrase begins with the \textsc{not} element, which selects and defines the necessary constraints for the \textsc{a} elements. \textbf{(Is this the right approach? Perhaps due to the limitations of the current system?)}.\\
+%
+%\textbf{Nevertheless, the present implementation goes against the idea of A_2 being the head... since it behaves as the COMPS of NOT, while A_1 is the true head being modified.}
+%
+%\textbf{(A simple tree could be better)}
+%
+%[Zhangsan [gao [bu gao] ] ? ] \\
+%
+%[Zhangsan [xihuan [ bu xihuan ] ] Lisi? ] \\
+%Nevertheless, the entire \textsc{a-not-a} structure should be treated as a single ``morphological word" (to quote \cite{McCawley1994}).
+
+%\subsection{Tentative: The Semantics of A-not-A}
+%
+%[The semantics of A-not-A?]
+%
+%[Distinct section, or organically included in the rest of the paper?]
+
+%\subsubsection{A-not-A as A and not-A}
+
+\subsection {Basic A-not-A / Basic Form}
+
+The \textsc{basic form} is one where the \textsc{a} elements are reduplicated in full. As described in the introduction section, the \textsc{a} element can be a verb, adjective or preposition. In this present account, only \textit{words} are treated as \textsc{a} elements of the basic form. Their phrasal equivalents --- namely verb phrases --- are treated as a separate type (See the section on \textsc{vp-not-vp} for more details)
+%The fundamental requirement of the basic form of \textsc{A-not-A} is that both the elements flanking \textsc{not} must be the same. These elements can be verbs (including modals, ``light" verbs and co-verbs), adjectives/adjectival predicates or prepositions. Examples of these are illustrated below:
+%
+%\begin{enumerate}
+%\item Zhangsan chi-bu-chi ping guo? (Zhangsan eat-not-eat apple)
+%\item Zhangsan gao-bu-gao (Zhangsan tall-not-tall?)
+%\item Zhangsan zai-bu-zai (Zhangsan in-not-in?)
+%\item Zhangsan zai-bu-zai jia (Zhangsan at-not-at home?)
+%\end{enumerate}
+
+As with the negator, the \textsc{not} element is derived from the \textsc{basic-scopal-adverb-lex}.
+
+\begin{exe}
+
+\ex{
+\avmvskip{.5ex}\avmhskip{2em}\avmbskip{.3em}
+\begin{avm}
+
+[\tp{a-not-a-adv-lex}\\
+
+CAT & [
+	HEAD & [ %\tp{adv}\\ 
+			MODIFIABLE & -- ~ ]\\
+	POSTHEAD & \rm +\\
+
+	%VAL & [ 
+		COMPS & < %[ CAT 
+						%[ HEAD & 
+								[  POS & @1 \rm +vjrp ~ \\ 
+									MODIFIABLE & @2 --\\
+						      	%]  \\
+						 	%]\\
+						%[ VAL & 
+							%[
+								COMPS & @3\\
+								SUBJ & @4\\
+							%] \\
+				%] \\
+				%] \\ %CAT
+				%[ %CONT | HOOK [ %INDEX & i \\
+							    ASPECT & @5 non-aspect~  ] %]  
+				> \\ %COMPS
+		MOD & < %[ CAT 
+								%[ HEAD & 
+									[  POS & @1 \\ 
+											MODIFIABLE & @2\\
+								      	%]  \\
+								 	%]\\
+								%[ VAL & [
+										COMPS & @3\\
+										SUBJ & @4\\
+									%] \\
+						%] \\
+						%] \\ % CAT
+						%[ %CONT | HOOK [ %INDEX & i \\
+									    ASPECT & @5 ~ ] %]
+				> \\ %MOD
+	%]\\ %SYNSEM|LOCAL|CAT|VAL
+	]\\ %SYNSEM|LOCAL|CAT
+CONT & [ SF & ques \\
+		 ASPECT & non-aspect ] %SYNSEM|LOCAL|CONT
+
+] %SYNSEM|LOCAL
+
+
+\end{avm}
+
+}
+
+\end{exe}
+
+%\subsubsection{What is the basic form?}
+
+%Some studies might disagree with this paper's choice of \textsc{basic form}. In these studies (Eg: Xu and Tian), the \textsc{ab-not-ab} 
+
+The \textsc{subj}, \textsc{comps} and \textsc{index} of the two \textsc{a} elements are identical, as the \textsc{a} elements are essentially identical. In doing so, it creates the following MRS representation for a particular sentence:
+
+\begin{exe}
+\ex{
+	Example Sentence:
+	\glll 张三 喜欢 不 喜欢 狗？\\
+		  Zhangsan xihuan bu xihuan gou?\\
+		  Zhangsan like NOT like dog?\\
+		  \mytrans{Does Zhangsan like dogs?}
+
+\avmvskip{.5ex}\avmhskip{1em}\avmbskip{.1em}	 
+\begin{avm}
+[
+	INDEX & @2 [ MODE & ques \\
+			  ASPECT & imperfective ~
+			]\\
+	RELS & [ RELN & \rm name \\
+	 		    NAME & ``张三" ~\\
+	 		    ARG0 & @1 %i 
+			],
+			[RELN & 喜欢 ~ \\
+			 ARG0 & @2 \\ %k \\
+			 ARG1 & @1 \\ %i \\
+			 ARG2 & @5 \\ %j
+			],
+			[RELN & 不 ~ \\
+			 ARG0 & @3 \\ %n \\
+			 ARG1 & @4 \\ %m \\
+			],
+			[RELN & 喜欢 ~ \\
+			 ARG0 & @4 \\ %m \\
+			 ARG1 & @1 \\ %i \\
+			 ARG2 & @5 \\ %j
+			],
+			[RELN & 狗 ~ \\
+			 ARG0 & @5 \\ %j \\
+			]
+			
+]
+\end{avm}
+}
+\end{exe}
+
+%The lexical type is defined as being non-aspectual such that sentence-final particles such as \textit{l\`{e}} are prevented from being attached to it.
+
+With the general lexical type in place, a sub-type for the basic form is created.
+
+\begin{exe}
+
+\ex{
+\avmvskip{.5ex}\avmhskip{2em}\avmbskip{.3em}
+\begin{avm}
+
+[\tp{a-not-a-basic-adv-lex}\\
+SYNSEM & [ 
+			%VAL & [ 
+					COMPS & < [ 
+						%	HEAD | CHAR & [
+									WCHAR & @1~
+							%] % HEAD|CHAR
+						]> \\ %COMPS
+				%] \\ %VAL
+				
+			%HEAD & [
+					MOD &  < [
+						%HEAD | CHAR & [
+								WCHAR & @1~ \\
+								LENGTH & one~ \\ 
+						%]\\ % HEAD|CHAR
+						BOUND & --
+					]> % MOD
+			%] % HEAD 
+		]
+
+]
+
+\end{avm}
+
+}
+
+\end{exe}
+
+As described, the \textsc{wchar} of the \textsc{a} elements must be identical in the basic form. A further constraint restricts the \textsc{a} element to be non-bounded forms. These forms are single characters of a multi-character word, and they cannot exist outside of structures like \textsc{a-not-a}. (\S X.X will cover more of this)
+
+With the above constraints added, it is able to predict the following:
+
+\begin{exe}
+	\ex{
+	\begin{xlist}
+		\ex {
+			\glll 
+			张三 喜欢 不 喜欢 狗？\\
+			Zh\={a}ngs\={a}n xihu\={a}n b\`{u} xihu\={a}n gou?\\
+			Zhangsan like NOT like dog?\\
+			\mytrans{Does Zhangsan like or not like dogs?}
+		}
+		\ex {
+			\textbf{[Non-identical A elements]}
+			\glll 
+			*张三 讨厌 不 喜欢 狗？\\
+			~~Zh\={a}ngs\={a}n taoy\`{a}n b\`{u} xihu\={a}n gou?\\
+			~~Zhangsan hate NOT like dog?\\
+			\mytrans{Does Zhangsan hate or not like dogs?}
+		}
+		\ex {
+			\textbf{[Bounded forms being used]}
+			\glll 
+			*张三 喜 不 喜 狗？\\
+			~~Zh\={a}ngs\={a}n xi b\`{u} xi gou?\\
+			~~Zhangsan XI NOT XI dog?\\
+			\mytrans{Does Zhangsan like or not like dogs?}
+				}
+	\end{xlist}
+	}
+
+\end{exe}
+
+%In some studies (Eg: Xu \& Tian), the \textsc{ab-not-ab} pattern is seen as the basic form --- from which all other forms are derived --- and thus \textit{that} is referred to as \textsc{a-not-a}, while the \textsc{basic form} in the current analysis is labelled as \textsc{a-not-ab}, derived from \textsc{ab-not-ab} with an ellipsed \textsc{b}-element for \textsc{a_1}.
+%
+%The current analysis has taken a different approach. Primarily, the analysis of \textsc{ab-not-ab} as the ``default" \textsc{a-not-a} structure seems to take a more verb-centric approach --- particularly that of a transitive verb --- even though adjectives, prepositions and even nominals (see next sub-section) can play the role of the \textsc{a} element. It assumes an object or a complement is present by default, even though intransitive verbs and adjectival predicates, for example, do not have a \textsc{b} element. In other words, this supposed basic form does not cover by default most of the possibilities, but instead covers only a narrow range --- that of transitive verbs as the \textsc{a}-element.
+%
+%As such, I take the ``more-encompassing" analysis as the basic form, while the verb-based \textsc{ab-not-ab} structure is a distinct one from which \textsc{a-not-ab} (or \textsc{v-not-vo}) and \textsc{ab-not-a} (or \textsc{vo-not-v}) are derived.
+%
+%Furthermore, the definition of the \textsc{b} element in \textsc{ab-not-ab} can vary, depending on whether the \textsc{a} element is a verb, adjective, preposition, modal, etc. 
+%
+%If the \textsc{a} element is a transitive verb, then \textsc{b} represents the object. It can also represent the object, plus any non-first character of the verb. On the other hand, \textsc{ab} can also represent a two (or more)-character adjective where \textsc{a} represents the first character, and \textsc{b} stands for the subsequent characters. This, I believe, overloads the name and reduces its consistency.
+%
+%\textbf{Therefore, a more consistent naming convention is required!}
+%
+%%\subsubsection{Nominals as A?}
+%The use of nominals in the position of \textsc{A} is not fully acceptable; however, according to \cite{Tseng2009}, such cases can be acceptable in certain situations. Below, I have extracted an example used in \citet[p.~130, eg 22]{Tseng2009}:
+%
+%\begin{exe}
+%\ex{
+%	\glll 
+%	绿 不 绿 卡 不 重要\\
+%	l\"{u} b\`{u} l\"{u} k\v{a} b\`{u} zh\`{o}ngy\`{a}o\\
+%	green NOT green card not important\\
+%	\mytrans{It's not important whether you have the green card or not}
+%}
+%\end{exe}
+%
+%It is arguable that these nominal \textsc{A} elements are playing the role of predicates. \textbf{predicates in Mandarin? Flexible! Cite}
+%
+%[Tseng showed some non-acceptable uses as well...]
+%
+%Nevertheless, such usages are only acceptable in a declarative or non-interrogative sentence, or when it is embedded.
+
+\subsection{A-not-A contracted / Contracted Form}
+
+The \textsc{a-not-a contracted}, or the \textsc{contracted form}, is a variant of the \textsc{basic form}, and can be applied when the \textsc{a} element is a multi-character word. This form sees the contraction of the first \textsc{a} element (\textsc{a_1} such that only the first character (\textsc{fchar}) is retained, with the rest deleted. This was illustrated earlier in (\ref{intro-cont-form}) and (\ref{intro-adj-2}), duplicated here as (\ref{cont-form-1}) and (\ref{cont-form-2}):
+
+\begin{exe}
+
+\ex {
+	\begin{xlist}
+	\ex\label{cont-form-1}{
+		\glll 
+		张三 喜 不 喜欢 狗？\\
+		Zh\={a}ngs\={a}n x\^{\i} bu x\^{\i}hu\={a}n gou?\\
+		Zhangsan like NOT like dogs\\
+		\mytrans{Does Zhangsan like dogs or not like dogs?}
+	}
+	
+	\ex\label{cont-form-2}{
+		\glll 
+		张三 健 不 健康？\\
+		Zh\={a}ngs\={a}n ji\`{a}n bu ji\`{a}nk\={a}ng\\
+		Zhangsan healthy not healthy\\
+		\mytrans{Is Zhangsan healthy or not healthy?}
+	}
+	\end{xlist}
+}
+\end{exe}
+
+Our previous implementation for the \textsc{basic form} will be inadequate for such cases, as the whole strings (\textsc{wchar}) for \textsc{a_1} and \textsc{a_2} are clearly not identical. A modified variation of the basic rule will therefore be needed, and is implemented as a new subtype the \textsc{a-not-a-contracted-lexical-rule}, also known as \textsc{a-not-a-contracted-adv-lex} in the computational implementation:
+
+\begin{exe}
+
+\ex{
+\avmvskip{0ex}\avmhskip{2em}\avmbskip{.3em}
+\begin{avm}
+
+[\tp{a-not-a-contracted-adv-lex}\\
+SYNSEM & [ 
+			%VAL & [ 
+					COMPS & < 
+						[ 
+							%HEAD | CHAR & [
+									FCHAR & @1 \\
+									LENGTH & more-than-one
+							%] % HEAD|CHAR 
+						]
+						> \\
+				%] \\ % VAL
+				
+			%HEAD & [
+					MOD &  < [
+						%HEAD | CHAR & [
+								WCHAR & @1 \\
+								LENGTH & one 
+						%] % HEAD|CHAR
+					] >
+			%] % HEAD
+		] % SYNSEM
+]
+
+\end{avm}
+
+}
+
+\end{exe}
+
+As illustrated above, the \textsc{fchar} of the \textsc{comps} (\textsc{A_2}) is defined to be identical to the \textsc{wchar} of the element modified (\textsc{A_1}). The additional constraint of the \textsc{length} on the complement (\textsc{A_2}) element prevents this rule from also being used to parse \textsc{basic a-not-a} structures.
+
+%\textbf{(Apparently this is the opposite in the LKB analysis! Check to see if a mix-up has occurred. On the surface, there shouldn't be anything wrong; either COMPS-fchar/MOD-wchar or COMPS-wchar/MOD-fchar should work.
+%\\ \\
+%Seems like it's this paper that made a mistake... and I've confused it all along. A1 is MOD; A2 is COMPS...)}
+
+%\textbf{[Check to see if the below still holds true. It seems to have become un-necessary to do this, and somehow the LKB account works even without the proper passing up of LENGTH... wait, should be passing up the WCHAR??]}
+%An addition change will still be required. Recall from the previous section that the construction of the \textsc{a-not-a} structure in this account begins with the \textsc{not} element, which selects and constrains the \textsc{a} elements. The \textsc{not} element then combines first with its complement \textsc{a_2} using the \textsc{head-comp} rule, and then with \textsc{a_1} using the \textsc{adv-mod-scop??} rule. The nature of the existing \textsc{head-comp} rule means that the properties of the \textsc{non-head-dtr}s are not passed up, which makes it impossible for our... \textbf{wait a minute...}
+
+\subsubsection{Single-character entries for bound forms}
+In addition to the new lexical rule, these single-character forms will also require their own entries in the lexicon (if they do not already exist), to allow the parser to identify them. These forms, however, always exist as part of the multi-character word, and cannot occur independently outside of specialised structures (such as reduplications and \textsc{a-not-a}). These are therefore considered bound forms, and are consequently given the property of [ \textsc{bound + }] within \textsc{synsem}. As an example, for the multi-character word \textit{x\v{i}hu\={a}n}, an entry for its first character \textit{x\v{i}} will need to be added:
+
+\begin{exe}
+\avmvskip{.5ex}\avmhskip{2em}\avmbskip{.3em}
+\ex{
+\begin{avm}
+[\tp{\rm 喜\_v} \\ STEM & < `喜' > \\
+%	SYNSEM & [ 
+		BOUND & \rm + \\
+		PRED & \rm `\_喜欢\_v\_rel'
+			   %LOCAL|CAT|HEAD & [
+			   		%FULLFORM & < `聪明 ' >
+			   %]
+ %]
+]
+\end{avm}
+}
+
+\end{exe}
+
+%~ \\ % Just a dummy to force LaTeX to create line-space
+
+%\textbf{This parenthetical is probably un-needed}
+%(This lays partially the groundwork not only for the \textsc{A-not-A Contracted Form}, but also for other forms where the separation of these otherwise bound multi-character forms is required. This includes reduplicating structures used to intensify adverbs, such as \textit{g\={a}og\={a}ox\`{i}ngx\`{i}ng + d\`{e}} ``happily")
+
+\newpage
+
+\subsection{VP-not-VP}
+As the name of the structure suggests, verbs or verb phrases are the \textsc{a} elements. 
+
+%\textbf{As discussed in an earlier section, this structure is used as the default \textsc{a-not-a} structure in some studies.}
+
+\subsubsection{AB-not-AB}
+
+A basic sub-type of this structure is the \textsc{ab-not-ab} or \textsc{vo-not-vo} structure, where the element \textsc{b} is the object (direct, indirect or both) of the verb \textsc{a}. This was illustrated in Example (\ref{intro-vp-not-vp}), and has been duplicated here as (\ref{ab-not-ab-1}):
+
+\begin{exe}
+\ex\label{ab-not-ab-1}{
+	\glll 
+	张三 喜欢 狗 不 喜欢 狗？\\
+	Zh\={a}ngs\={a}n x\^{\i}hu\={a}n g\^{o}u bu x\^{\i}hu\={a}n g\^{o}u?\\
+	Zhangsan like dogs NOT like dogs\\
+	\mytrans{Does Zhangsan like dogs or not like dogs?}
+}
+\end{exe}
+
+As opposed to the previous two sections for the \textsc{basic form} and \textsc{contracted form}, the objects of either \textsc{a_1} or {a_2} form a verb-phrase before they are selected by \textsc{not}, instead of only the verb being selected.
+
+The lexical rule for the \textit{ab-not-ab-adv-lex} is largely similar to the general \textsc{a-not-a} rule introduced in \S 4.2, except that the \textsc{a} elements are specified to be phrases instead of words, and that the head of these \textsc{a} elements can only be verbs. Also, the subject must not be filled, to block phrases where the subject is included as part of \textsc{a_1}. The below illustrates only the parts different from the general form:
+
+\begin{exe}
+\ex{
+\begin{avm}
+	[\tp{ab-not-ab-adv-lex}\\
+		SYMSEM & [
+			%VAL & [ 
+					COMPS & < 
+						[ 
+						%HEAD & [
+						\tp{phrase}\\ 
+						POS & verb ~ \\
+						% \\ % HEAD
+						%VAL & [ 
+							SUBJ & @1 
+						%] % VAL
+					 ] > \\ % COMPS 
+			%	  ]\\ % VAL
+			%HEAD & [
+					MOD & < 
+						[ 	
+							%HEAD & [
+							\tp{phrase}\\ 
+								POS & verb \\
+							%]\\ % HEAD
+							%VAL & [ 
+								SUBJ & @1 ~ < ~[ ~ ] ~ > ~ 
+							%] % VAL 
+						] >
+			%] % HEAD 
+		
+		] % SYNSEM
+	]
+\end{avm}
+}
+\end{exe}
+
+Notice, however, that while the above rule states that the verb must be the same (based on the \textsc{wchar}), there is no similar constraint on the object (the \textsc{b} element). This, unfortunately, is a limitation of the current system, and there is currently no mechanism that can ensure the object be the same, as these information, being non-head, are not automatically passed-up to the mother node. This is essential for the \textsc{ab-not-ab} implementation to be parsed successfully. However, the passing up of such elements remains unrecommended.
+
+%Such a need is further extended to more complex \textsc{vp-not-vp} constructions. 
+
+\subsubsection{More complex VP-NOT-VP structures}
+As verb phrases are the \textsc{A} elements in this structure, significantly more complex structures can be used on either side of \textsc{not}, so long as they are permitted as verb phrases in Mandarin Chinese.
+
+We see an example of this \textsc{vp-not-vp} structure below:
+\begin{exe}
+
+\ex{
+	\glll 
+	张三 喜欢 吃 便宜 的 面 不 喜欢 吃 便宜 的 面？\\
+	Zh\={a}ngs\={a}n x\^{\i}hu\={a}n ch\={i} pi\'{a}ny\'{i} d\`{e} mi\`{a}n b\`{u} x\^{\i}hu\={a}n ch\={i} pi\'{a}ny\'{i} d\`{e} mi\`{a}n \\
+	Zhangsan like eat cheap DE noodles NOT like eat cheap DE noodles\\
+	\mytrans{Does Zhangsan like to eat cheap noodles or not like to eat cheap noodles?}
+}
+
+\end{exe}
+
+Here, however, is an area where actual acceptability versus grammaticality can be at odds. While in theory the VP can be very complex, such a structure would have been deemed troublesome by native speakers, \textbf{even the much simpler \textsc{VO-not-VO} structure}, if only because there is a limit to how much information can be manipulated at once by the human mind. As such, in cases of the above, such sentences will almost-always be simplified to the either the \textsc{basic form} --- where the object is elided --- or the \textsc{contracted form} --- where the object and any non-first character of the verb is elided --- as described in \S 4.3.
+
+%\textbf{(Corpus evidence?)}
+
+\begin{exe}
+
+\ex{
+	\textbf{[Reduced to Basic Form]}
+	\glll 
+	张三 喜欢 不 喜欢 吃 便宜 的 面？\\
+	Zh\={a}ngs\={a}n x\^{\i}hu\={a}n b\`{u} x\^{\i}hu\={a}n ch\={\i} pi\'{a}ny\'{i} d\`{e} mi\`{a}n? \\
+	Zhangsan like NOT like eat cheap DE noodles\\
+	\mytrans{Does Zhangsan like or not like to eat cheap noodles?}
+}
+
+\ex{
+	\textbf{[Reduced to Contracted Form]}
+	\glll
+	张三 喜 不 喜欢 吃 便宜 的 面？\\
+	Zh\={a}ngs\={a}n x\^{\i} b\`{u} x\^{\i}hu\={a}n ch\={\i} pi\'{a}ny\'{i} d\`{e} mi\`{a}n? \\
+	Zhangsan like NOT like eat cheap DE noodles\\
+	\mytrans{Does Zhangsan like or not like to eat cheap noodles?}
+}
+
+\end{exe}
+
+%Nevertheless, as such a structure remains grammatical, our implementation of the grammar will permit this.
+%
+%(???????: It could be argued that the underlying structure for the contracted forms of \textsc{VP-not-VP} remains distinct from the \textsc{Basic Form}, despite being identical on the surface structure, such that we see: \\
+%
+%%\Tree [.CP Spec(CP) [ C^0 [.IP I^0 Comp(IP) ] ] ]
+%
+%
+%\Tree [.S Zhangsan 
+%			[.VP 
+%				[.V xihuan ] 
+%				[.AdvP 
+%					[.Adv bu ] 
+%					[.VP xihuan ping-guo ] 
+%				 ] 
+%			 ] 
+%		 ]
+%
+%where the object remains the complement of the verb \textit{x\^{i}hu\=a{n}} in \textsc{A_2}, instead of being the complement of the verb phrase \textit{x\^{i}hu\=a{n} b\`{u} x\^{i}hu\=a{n}} in the the case of the \textsc{Basic Form}:\\
+%
+%%[Zhangsan [ [ xihua bu xihuan ] ping-guo] ] \\
+%
+%\Tree [.S Zhangsan 
+%			[.VP 
+%				\qroof{xihuan bu xihuan}.VP
+%				[.NP ping-guo ]  
+%			 ] 
+%		 ]
+%
+%However, it was deemed that this differentiation is unimportant in the overall account and parsing of such a sentence...?
+%
+%\textbf{The ability to parse such sentences reliability is still not possible, because of the inability to ``check" for identical objects in the current HPSG implementation --- non-head-dtrs are not passed up, and there is thus no ability to ensure identical \textsc{a} elements, apart from the verb. }
+
+\subsection{Other Variants}
+
+\subsubsection{VV-compounds}
+
+VV compounds, or \textsc{resultative compounds}, are a type compound verb in Chinese where the event represented by the first verb (\textsc{v_1}) in the compound and the event or state represented by the second verb (\textsc{v_2}) in the compound have a causal relation. (See \cite{Li1990} for more details.)
+
+VV compounds, like normal verbs, can also be \textsc{a} elements in \textsc{a-not-a}:
+
+\begin{exe}
+
+\ex {
+
+	\glll 
+	张三 气死 不 气死 你？\\
+	Zh\={a}ngs\={a}n q\`{i}-si b\`{u} q\`{i}-si ni? \\
+	zhangsan anger-die NOT anger-die you? \\
+	\mytrans{Does Zhangsan anger you to death?}
+
+}
+
+\end{exe}
+
+\textsc{v_2} of \textsc{a_1} can optionally be deleted. However, unlike the case for two-character words, \textsc{v_2} of \textsc{a_2} cannot be deleted:
+
+\begin{exe}
+
+\ex {
+
+	\glll 
+	张三 气(死) 不 气*(死) 你？\\
+	Zh\={a}ngs\={a}n q\`{i}(-si) b\`{u} q\`{i}\*(-si) ni? \\
+	zhangsan anger(-die) NOT anger(-die) you? \\
+	\mytrans{Does Zhangsan anger you to death?}
+
+}
+
+\end{exe}
+
+
+%\begin{exe}
+%
+%\ex {
+%
+%	\glll 
+%	张三 气 死 不 气 你？\\
+%	Zhangsan qi si bu qi ni? \\
+%	zhangsan anger die NOT anger you? \\
+%	\mytrans{Does Zhangsan anger you to death?}
+%
+%}
+%
+%\end{exe}
+
+While \textsc{a-not-a} was believed to be neutral, it is possible to have a certain bias, as the above two sentences can also be translated to ``Doesn't Zhangsan anger you?", a likely rhetorical question which demonstrates a pre-disposition of the asker towards agreement/a \textsc{yes} answer. 
+While this is also apparent in ordinary \textsc{v-not-v}, the possibility of bias-ness appears to be stronger in \textsc{vv-not-vv}. This could partially be explained by the presence of \textsc{v_2}, which suggests a pre-determined conclusion that strengthens the possibility of bias. Another question is whether different VV compounds can cause different degrees of bias (or not at all). These are, however, clearly out of the scope of this paper. 
+%\\
+%Note 2: Can different VV compounds give different bias-ness? QI in QISI has a different meaning (or a different theta structure?) compared to QI.}
+
+
+%\textbf{Liing's account of Huang 91, and VV-compounds.}
+%
+%\textbf{Liing's account of her supervisor's Elimination Tactic theory...}
+
+
+
+%[Discuss semantics of this.]
+%
+%Differs from modal+verb structure.
+%
+%Zhangsan yao bu yao chi cai?
+%
+%While the present account can parse the syntactical structure of VVs, it does not currently have the correct semantics. This is further complicated by the different theta roles the verbs in VV compounds can play, which can differ from VV compound to VV compound.
+
+\subsubsection{VP-neg}
+
+The VP-neg structure, also known as the negative particle questions according to Cheng, Huang and Tang (1996, cited in Huang (2008)), is a sub-type of A-not-A questions. It takes the following forms:
+
+\begin{exe}
+\ex {
+	\textbf{[Modified from Cheng, Huang and Tang (1996)]}
+	\begin{xlist}
+	\ex{
+		\glll 
+		张三 买 书 不?\\
+		Zh\={a}ngs\={a}n mai sh\={u} b\`{u}?\\
+		Zhangsan buy books NOT?\\
+		\mytrans{Is Zhangsan buying books?}
+	}
+	\ex{
+		\glll 
+		张三 吃饭 了 没（有）？\\
+		Zh\={a}ngs\={a}n ch\={i}f\`{a}n l\`{e} m\'{e}i(you)?\\
+		Zhangsan eat LE NOT?\\
+		\mytrans{Has Zhangsan eaten?}
+	}
+	\end{xlist}
+	
+}
+
+\end{exe}
+
+As can be seen observed from this structure, this particular structure is thus named because of the negator being used as a sentence-ending particle. With A-not-A as a basis, it appears that such a structure elides the right-hand A, and can thus also be termed the \textsc{A-not} structure.
+
+The particular structure has caused some debate among linguists. It has been identified as a derivative of A-not-A by Huang (2006), Hsieh (2001) and Li (1996), among others. These linguists see the V-neg strucutre as an ellipsed form of A-not-A. Others such as Zhang and CHT (??) instead see the sentence-final negator as a form of question particle, not dis-similar to MA. Huang (2006) in particular, had performed an investigation and review of these various analyses, in support of the the stance of Tseng (2004) and Li(1996), while also illustrating the weaknesses of these analyses.
+
+\cite{Gasde2001} instead claims that derivation of the \textsc{VP-neg} structure from \textsc{a-not-a} is not possible, because it is an older structure than the latter, having existed since the Classical Chinese era while \textsc{a-not-a} had only entered use during the Sui and Tang Dynasty. Therefore, as Gasde explained, it was more likely an independent, distinct structure.
+
+%[... further expansion ...]
+
+\subsection{The ``monolithic" approach}
+
+The abovementioned approach has its set of pros and cons. As it is based more on the syntactic structure of the \textsc{a-not-a} structure and how it is built-up, it provides a clearer account of the mechanics behind the formation of the structure. However, it might not be as accurate in terms of the semantics, as the single-predicate analysis cannot be satisfactorily accounted for.
+
+An alternate approach to the analysis and parsing of the \textsc{a-not-a} structure is by treating the structure as a single morphological word, and therefore approach it from the lexicon. In such a case, most words that are permitted to be part of \textsc{a-not-a} will also have \textsc{a-not-a} versions as lexical entries. As such, each word will have three copies: 1) the normal word, 2) the A-not-A basic form and 3) the A-not-A contracted, which can easily be generated programmatically.
+
+Such a treatment has its own advantages and disadvantages. As a whole, it can be more semantically accurate as it will allow the representation of a single predicate. However, this implementation will inevitably lead to a very large lexicon. Secondly, it does not provide much information on the syntactic aspects of \textsc{a-not-a}, such as its formation, in the grammar itself, since the \textsc{a-not-a} phrases will essentially be added manually or with a script, both of which is outside the grammar's environment. Thirdly, such an analysis will not be able to account for \textsc{ab-not-ab} without producing an even larger lexicon that contains all the possible \textsc{ab} combinations.
+
+Neither system at the moment provides reliable parsing of the \textsc{ab-not-ab} (or \textsc{vp-not-vp}) structure. To reiterate, the first method currently has no mechanism that permits the ``checking" of the \textsc{b} elements --- the object or the complement of the head verb --- to ensure they are identical. Therefore, the account provided for it is only an ``idealised" one which at present cannot be performed in the grammatical system.
+
+In the second method, as explained earlier, the lexicon would have to be uncomfortably large to cater for the various possible complements/objects that can exist for the \textsc{ab-not-ab} or \textsc{vp-not-vp} structure.  
+
+\newpage
+
+\section{Implementation}
+This section deals with further details of the implementation. While development on the LKB grammar has already commenced, and can already parse (at the rudimentary level, at least) the basic and contracted forms, the bulk of the integration will only be performed after the completion of this paper.
+
+\subsection{Test-suite}
+
+A test-suite of 106 \textsc{A-not-A} sentences was used for the implementation of the grammar. These sentences and their respective grammaticality judgements come from native sources, as well as from the literature investigated. As much as possible, I made use of the existing lexical items in the already-present lexicon, without the need to include new items, and sentences sourced from the literature were modified accordingly to fit into this requirement wherever possible.
+
+The majority of these sentences covers the phenomenon and structures analysed above.
+
+I have also included sentences which fall outside the scope of the present study. These are, therefore, not expected to be parse-able by the implementation in the present study. However, as the \textsc{a-not-a} structure will continue to be worked on after the conclusion of this present analysis, it is expected (or at least hoped) that these sentences will eventually be accounted for by the grammar implementation.
+
+(For a list of all the sentences used, please see Appendix A)
+
+\newpage
+
+\section{Limitations and Ongoing Investigation}
+
+The present study might have concluded, but the implementation of the \textsc{A-not-A} structure in the grammar will continue to be expanded. As previously mentioned, a proper account of the \textsc{ab-not-ab} structure remains out of the reach of the present analysis and system, and might remain so unless certain fundamental changes are permitted, such as the ability to concatenate and pass up strings of the daughter nodes.
+
+As previously mentioned, the phenomenon will continue to be studied after the conclusion of this paper, and the integration of the grammar will begin proper.
+
+
+\section{Conclusion}
+
+\textsc{a-not-a} is certainly fun.
+
+In this paper, I have looked at the various accounts of the \textsc{a-not-a} structure in Mandarin Chinese, as well as provide an HPSG account of this structure. At the same time, the groundwork and implementation for the integration of the structure into the \textit{Zhong} grammar has also been performed. The inability to properly account for \textsc{ab-not-ab} at present is indeed an unfortunate setback, but this might change in the future.
+
+\newpage
+
+\bibliographystyle{apalike}
+\bibliography{References}
+
+\newpage
+
+\section{Appendix}
+
+\subsection{Test-suite Sentences}
+
+[Here be the test-suite sentences, not included in this draft]
+
+\end{document}
