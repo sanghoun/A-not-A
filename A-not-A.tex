@@ -207,7 +207,7 @@ In the system of expressing polar questions in Mandarin Chinese,
 
 
 \noindent If these two forms of polar questions are simply
-allostructures of each other, the semantic represenation should be
+allostructures of each other, the semantic representation should be
 almost the same in order for one form to be paraphrased into the other
 form. However, since there are at least three reasons for believing
 that they are not equivalent, there is no necessity to represent them
@@ -242,11 +242,11 @@ shown in \myref{exe:scope}.
 \textsc{ma}-questions has a stance to the expressed preposition
 (e.g.,\ confirmation or denial), the asker in {\anota} questions does
 not \cite{liing:14}. Hence, the two types of polar questions are not
-necessarily interchangable. Third, they differ in terms of information
+necessarily interchangeable. Third, they differ in terms of information
 structure. In \textsc{ma}-questions, focus can be assigned to any
-constitunet. For instance, in \myref{exe:yesno}, either the subject,
+constituent. For instance, in \myref{exe:yesno}, either the subject,
 the object, or the verb can be evaluated as containing focus. By
-contrasnt, {\anota} does not signal focus to any other elements but
+contrast, {\anota} does not signal focus to any other elements but
 the structure itself. In other words, {\anota} always bears focus
 (i.e.,\ predicate focus).
 
@@ -254,12 +254,15 @@ the structure itself. In other words, {\anota} always bears focus
 \subsection{Headedness}
 \label{ssec:head}
 
-This section is about the headedness of A-not-A.
+The presence of two semantically identical elements (even if only partially reduplicated) in \anota makes
+it difficult to convincingly determine whether \aone or \atwo should be the head. As the components within \anota ~cannot be individually shifted or modified, nor can other elements be inserted between, headedness tests that make use of methods such as modification or movement cannot be easily applied.
+
+This ``monolithic" property of \anota means that it could be seen as a single morphological word, and therefore the entire phrase is the head, and not its sub-components. Such an analysis will thus require that we approach \anota from the lexicon, and include the possible \anota forms of lexical entries that can serve as the \textsc{a} elements. This means a lexical entry will have three variants: 1) its normal form, 2) its basic \anota form and 3) its single-character contracted \anota form.
 
 \subsection{Character}
 \label{ssec:char}
 
-
+To recall from the introductory remarks, the \textsc{A} elements in \anota are full or partial reduplicates of each other. One such form is that only the first character of \aone is reduplicated. With this in mind, we introduced four new feature types to the lexicon entries, as presented in (\getref{avm:vjp}):
 
 {\small 
 \ex\deftagex{avm:vjp}
@@ -269,7 +272,11 @@ This section is about the headedness of A-not-A.
 \xe}
 \vspace{-20pt}
 
+The feature types \textsc{wchar} and \textsc{fchar} specify the whole character and the first character of a lexical entry, respectively. The feature \textsc{wchar} is identical to the \textsc{stem} of the lexical entry. Next, the \textsc{length} specifies that an entry has \textit{one} or \textit{more-than-one} character. Finally, the boolean feature \textsc{bound} specifies if an entry is a bound or non-bound form. This is to ensure that one-character \aone ~forms of a multi-character word are used outside of \anota, as they are not independent morphemes. 
 
+\CJK{UTF8}{gkai}{
+To provide a clearer idea, the entries in (\getref{avm:xihuan}) illustrate the bound and non-bound forms of 喜欢, respectively. As they are identical to each other apart from length, they take the same \textsc{pred} value.
+}
 
 {\small 
 \pex<avm:xihuan>
@@ -287,7 +294,6 @@ This section is about the headedness of A-not-A.
 
 
 
-
 \subsection{Co-occurring Constraints}
 \label{ssec:cooccurring}
 
@@ -295,16 +301,22 @@ This section is about the headedness of A-not-A.
 
 
 
-Modifiability
+Modifiability (\textbf{Remove this section?})
 
 
-Sentence-final Particles
+\subsubsection{Sentence-final Particles}
+\label{sssec:sfp}
+
+\CJK{UTF8}{gkai}{
+\anota questions are not permitted to occur with certain sentence-final particles (SFP). In the cases of 了 \textit{l\`{e}}, 吗 \textit{m\={a}}, 吧, 哦 and 耶 \textit{b\`{a}}, it is because only propositions can be used with these SFPs, whereas \anota is a question.
+
+Other SFPs like the emphatic markers 嘛 \textit{ma}, 呀 \textit{ya} and 呢 \textit{n\={e}} do not, however, restrict themselves to only propositions and are therefore permitted to be used with \anota.
 
 
-\textsc{le-zhe-guo}
+\subsubsection{LE-ZHE-GUO}
 
-
-
+The markers \textit{l\`{e}}, \textit{zh\`{e}} and \textit{gu\`{o}}, collectively know as \textsc{le-zhe-guo} or LZG, are also restricted in their co-occurrence with \anota, either with the entire \anota phrase, or with the individual \textsc{A} elements. \textit{L\`{e}} and \textit{zh\`{e}} ~are not allowed to co-occur with \anota at all, while \textit{gu\`{o}} can only occur with \anota if the \textsc{not} element is 没 \textit{m\'{e}i}. \footnote{As the present paper deals only with the \textit{bu} form of \anota, we will not delve further.}
+}
 
 \section{Different Forms of {\anota} Questions}
 \label{sec:forms}
