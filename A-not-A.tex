@@ -24,6 +24,7 @@
 \usepackage{expex}
 \usepackage{graphicx}
 \usepackage{tipa}
+\usepackage{multirow}
 
 %\refproofing
 \gathertags
@@ -63,6 +64,10 @@
 \newcommand{\tdl}[1]{\textit{#1}}
 \newcommand{\myref}[1]{(\getref{#1})}
 
+\newcommand*{\vcenteredhbox}[1]{\begingroup
+\setbox0=\hbox{#1}\parbox{\wd0}{\box0}\endgroup}
+
+
 
 \title{A Constraint-based Analysis of \textsc{A-not-A} Questions in Mandarin Chinese} 
 
@@ -86,8 +91,8 @@
 %\begin{abstract}
 %\end{abstract}
 
-\section{Introductory Remarks}
-\label{sec:introduction}
+\section{Basic Properties}
+\label{sec:properties}
 
 
 The present study provides a constraint-based analysis of {\anota}
@@ -95,11 +100,8 @@ questions in Mandarin Chinese within the HPSG and MRS
 \cite{pollard:sag:94,copestake:etal:05} framework and implements the
 analysis into a computational grammar for Chinese: namely, \zhong.
 Hereafter, the two components in the {\anota} structure are labelled
-as {\aone} and {\atwo}, respectively.\footnote{Mandarin Chinese
-  employs two negative operators such as \textit{b\`{u}} and
-  \textit{m\'{e}i}, the choice of which hinges on the aspectual
-  property of the verbal item that they are attached to. Due to the
-  page limit, we focus on \textit{b\`{u}} herein.}
+as {\aone} and {\atwo}, respectively.
+
 
 
 Using the {\anota} structure is one of the ways to express polar
@@ -144,13 +146,15 @@ like dogs (or not like dogs)?''\footnote{Due to the page limit, this
 result in either the verb being reproduced without its complement, or
 the verb being reduced to only its first character/syllable.  As
 illustrated in (\getfullref{exe:vnotv.contracted}), this is not
-equally applicable to both {\aone} and a {\atwo}. For {\atwo}, only
+equally applicable to both {\aone}  and a {\atwo}. For {\atwo}, only
 one type of partial reduplication (i.e.,\ deletion of complement) is
-permitted.  The lexical types capable of behaving as a syntactic head
-of predicates in Mandarin Chinese, such as verbs, adjectives, and
-prepositions, can participate in the {\anota} structure
-\cite{tseng:09}. Two more examples in which adjectives and
-prepositions are used are provided in
+permitted.  
+
+
+The lexical types capable of behaving as a syntactic head of predicates
+in Mandarin Chinese, such as verbs, adjectives, and prepositions, can
+participate in the {\anota} structure \cite{tseng:09}. Two more examples
+in which adjectives and prepositions are used are provided in
 (\getref{exe:anota}-\getref{exe:pnotp}).
 
 
@@ -163,7 +167,7 @@ prepositions are used are provided in
 \glc Zhangsan tall \textsc{not} tall \textsc{pu}//
 \glft `Is Zhangsan tall (or not tall)?'//
 \endgl
-\vspace{-20pt}
+
 \xe
 \ex<exe:pnotp>
 \begingl[glspace=.5em]
@@ -176,6 +180,36 @@ prepositions are used are provided in
 \vspace{-20pt}
 
 
+Mandarin Chinese employs two negative operators such as
+\CJK{UTF8}{gkai}{不} \textit{b\`{u}} and \CJK{UTF8}{gkai}{没}
+\textit{m\'{e}i}, the choice of which hinges on the aspectual property
+of the verbal item that they are attached to. 
+
+
+{\small 
+\CJK{UTF8}{gkai}{
+\pex<exe:neg>
+\a<bu>
+\begingl[glspace=.5em]
+\gla 去 不 去//
+\glb q\`{u} bu q\`{u}//
+\glc go \textsc{not} go//
+\glft `Are you going?'//
+\endgl
+\a<mei>
+\begingl[glspace=.5em]
+\gla 去 没 去 ？//
+\glb q\`{u} mei q\`{u}//
+\glc go \textsc{not} go//
+\glft `Have you gone (somewhere)'//
+\endgl
+\xe}}
+\vspace{-20pt}
+
+
+\noindent As exemplified in \myref{exe:neg}, both of them can
+participate in the {\anota} structure with slightly different
+co-occurring constraints (\S\ref{sssec:lzg}).
 
 
 
@@ -211,10 +245,13 @@ allostructures of each other, the semantic representation should be
 almost the same in order for one form to be paraphrased into the other
 form. However, since there are at least three reasons for believing
 that they are not equivalent, there is no necessity to represent them
-in a common way.  First, they are semantically different.  When a
-universal quantifier \textit{d\={o}u} appears, a scope ambiguity
-happens with \textsc{ma}-questions but not with {\anota} questions, as
-shown in \myref{exe:scope}.
+in a common way. 
+
+
+First, they are semantically different.  When a universal quantifier
+\CJK{UTF8}{gkai}{都} \textit{d\={o}u} appears, a scope ambiguity happens
+with \textsc{ma}-questions but not with {\anota} questions, as shown in
+\myref{exe:scope}.
 
 
 {\small 
@@ -238,31 +275,179 @@ shown in \myref{exe:scope}.
 \xe}}
 \vspace{-20pt}
 
-\noindent Second, they are pragmatically different. While the asker in
-\textsc{ma}-questions has a stance to the expressed preposition
-(e.g.,\ confirmation or denial), the asker in {\anota} questions does
-not \cite{liing:14}. Hence, the two types of polar questions are not
-necessarily interchangeable. Third, they differ in terms of information
-structure. In \textsc{ma}-questions, focus can be assigned to any
-constituent. For instance, in \myref{exe:yesno}, either the subject,
-the object, or the verb can be evaluated as containing focus. By
-contrast, {\anota} does not signal focus to any other elements but
-the structure itself. In other words, {\anota} always bears focus
-(i.e.,\ predicate focus).
+
+
+Second, they are pragmatically different. While the asker in
+\textsc{ma}-questions has a stance to the expressed preposition (e.g.,\
+confirmation or denial), the asker in {\anota} questions does not
+\cite{liing:14}. Hence, the two types of polar questions are not
+necessarily interchangeable. 
+
+
+Third, they differ in terms of information structure. In
+\textsc{ma}-questions, focus can be assigned to any constituent. For
+instance, in \myref{exe:yesno}, either the subject \CJK{UTF8}{gkai}{张三}
+\textit{Zh\={a}ngs\={a}n}, the object \CJK{UTF8}{gkai}{狗}
+\textit{g\v{o}u}, or the verb \CJK{UTF8}{gkai}{喜欢} \textit{x\v{\i}huan}
+can be evaluated as containing focus. Should focus be required, the
+asker employs a specific prosodic clue and/or the focus marker
+\CJK{UTF8}{gkai}{是} \textit{sh\`{i}}. \myref{exe:shide} presents that
+different constituents in \textsc{ma}-questions can be freely clefted.
+
+
+{\small 
+\CJK{UTF8}{gkai}{
+\pex<exe:shide>
+\a<a>
+\begingl[glspace=.5em]
+\gla 是 张三 喜欢 李四 吗 ？//
+\glb sh\`{\i} Zh\={a}ngs\={a}n xihu\={a}n Lis\`{i} ma ?//
+\glc \textsc{shi} Zhangsan like Lisi \textsc{ma} \textsc{pu}//
+\glft `Is it Zhangsan (and not anyone else) who likes Lisi?'//
+\endgl
+\a<b>
+\begingl[glspace=.5em]
+\gla 张三 是 喜欢 李四 吗 ？//
+\glb Zh\={a}ngs\={a}n sh\`{i} xihu\={a}n Lis\`{i} ma ?//
+\glc Zhangsan \textsc{shi} like Lisi \textsc{ma} \textsc{pu}//
+\glft `Is it that Zhangsan likes Lisi?'//
+\endgl
+\a<c>
+\begingl[glspace=.5em]
+\gla 张三 喜欢 的 是 李四 吗 ？//
+\glb Zh\={a}ngs\={a}n xihu\={a}n d\`{e} sh\`{i} Lis\`{i} ma ?//
+\glc Zhangsan like \textsc{de} \textsc{shi} Lisi \textsc{ma} \textsc{pu}//
+\glft `Is it Lisi whom Zhangsan likes?'//
+\endgl
+\xe}}
+\vspace{-20pt}
+
+
+\noindent This is mainly because the scope of \textit{m\={a}} is not
+explicitly observable from the sentence itself. By contrast, {\anota}
+does not signal focus to any other elements but the structure itself
+(i.e., no ambiguity): The subject and the object in {\anota} questions
+cannot pass the cleft test exemplified in \myref{exe:shide}. In other
+words, {\anota} always bears focus (i.e.,\ predicate focus).
+
+
+
 
 
 \subsection{Headedness}
 \label{ssec:head}
 
-The presence of two semantically identical elements (even if only partially reduplicated) in \anota makes
-it difficult to convincingly determine whether \aone or \atwo should be the head. As the components within \anota ~cannot be individually shifted or modified, nor can other elements be inserted between, headedness tests that make use of methods such as modification or movement cannot be easily applied.
+The presence of two semantically identical elements (even if only
+partially reduplicated) in {\anota} makes it difficult to convincingly
+determine whether {\aone}  or {\atwo} should be the head. As the components
+within {\anota} ~cannot be individually shifted or modified, nor can other
+elements be inserted between, headedness tests that make use of methods
+such as modification or movement cannot be easily applied.
 
-This ``monolithic" property of \anota means that it could be seen as a single morphological word, and therefore the entire phrase is the head, and not its sub-components. Such an analysis will thus require that we approach \anota from the lexicon, and include the possible \anota forms of lexical entries that can serve as the \textsc{a} elements. This means a lexical entry will have three variants: 1) its normal form, 2) its basic \anota form and 3) its single-character contracted \anota form.
+
+This ``monolithic" property of {\anota} means that it could be seen as a
+single morphological word, and therefore the entire phrase is the head,
+and not its sub-components. Such an analysis will thus require that we
+approach {\anota} from the lexicon, and include the possible {\anota}
+forms of lexical entries that can serve as the \textsc{a} elements. This
+means a lexical entry will have three variants: (i) its normal form,
+(ii) its basic {\anota} form, and (iii) its single-character contracted
+{\anota} form.
+
+
+\subsection{Co-occurring Constraints}
+\label{ssec:cooccurring}
+
+
+%Modifiability (\textbf{Remove this section?})
+
+
+\subsubsection{Sentence-final Particles}
+\label{sssec:sfp}
+
+{\anota} questions are not permitted to occur with certain
+sentence-final particles. In the cases of \CJK{UTF8}{gkai}{了}
+\textit{l\`{e}}, \CJK{UTF8}{gkai}{吗} \textit{ma}, \CJK{UTF8}{gkai}{吧}
+\textit{ba}, \CJK{UTF8}{gkai}{哦} \textit{o} and \CJK{UTF8}{gkai}{耶}
+\textit{y\'{e}}, it is because only propositions can be used with these
+SFPs, whereas {\anota} is a question.
+
+
+Other sentence-final particles like the emphatic markers
+\CJK{UTF8}{gkai}{嘛} \textit{ma}, \CJK{UTF8}{gkai}{呀} \textit{ya} and
+\CJK{UTF8}{gkai}{呢} \textit{n\={e}} do not, however, restrict themselves
+to only propositions and are therefore permitted to be used with
+{\anota}.
+
+
+\subsubsection{Aspectual Markers}
+\label{sssec:lzg}
+
+
+As is well-known, Chinese is one of the aspect-based languages, in which
+aspect is linguistically and necessarily expressed and plays a pivotal
+role in syntax. The aspect hierarchy of Chinese is roughly sketched out
+in \myref{fig:aspect}.
+
+
+{\small 
+\ex\deftagex{fig:aspect}
+\vspace{-10pt}
+\newline
+\includegraphics[scale=.8]{pdf/aspect.pdf}
+\xe}
+\vspace{-20pt}
+
+
+\noindent The grammatical aspect in Chinese is largely expressed by
+verbal markers. There are three aspectual markers in Mandarin Chinese:
+\CJK{UTF8}{gkai}{了} \textit{l\`{e}}, \CJK{UTF8}{gkai}{着}
+\textit{zh\`{e}} and \CJK{UTF8}{gkai}{过} \textit{gu\`{o}}. They are
+respectively responsible for perfective, durative, and experiential.
+Since each verb lexically selects these markers, not all these three
+items can be necessarily attached to all verbs. For example, 去 q\`{u}
+`go' does not canonically co-occur with zh\`{e}. These markers are
+collectively know as \textsc{le-zhe-guo} or LZG, and they are
+hierarchically constrained as descibed in \myref{tdl:lzg}. 
+
+{\small 
+\ex<tdl:lzg>
+\texttt{
++vjp :+ [ LZG lzg ].\newline
+\mbox{ }lzg := avm. \newline
+\mbox{ }le := lzg.\newline
+\mbox{ }zhe := lzg.\newline
+\mbox{ }guo := lzg.\newline
+\mbox{ }no-lzg := lzg.\newline
+\mbox{ }le+zhe := le \& zhe.\newline
+\mbox{ }le+guo := le \& guo.\newline
+\mbox{ }zhe+guo := zhe \& guo.\newline
+\mbox{ }le+zhe+guo := le \& zhe \& guo.}
+\xe}
+\vspace{-20pt}
+
+The \textsc{le-zhe-guo} markers are also restricted in their
+co-occurrence with \anota, either with the entire {\anota} phrase, or
+with the individual \textsc{A} elements. The first two markers are not
+allowed to co-occur with {\anota} at all, while \textit{gu\`{o}} can
+only occur with {\anota} if the \textsc{not} element is
+\CJK{UTF8}{gkai}{没} \textit{m\'{e}i}. Using Type Definition Language
+(TDL), LZG is 
+
+
+%\footnote{As the present paper deals only with the \textit{bu} form of
+%\anota, we will not delve further.}
+
+
 
 \subsection{Character}
 \label{ssec:char}
 
-To recall from the introductory remarks, the \textsc{A} elements in \anota are full or partial reduplicates of each other. One such form is that only the first character of \aone is reduplicated. With this in mind, we introduced four new feature types to the lexicon entries, as presented in (\getref{avm:vjp}):
+To recall from \S\ref{sec:properties}, the $A$ elements in {\anota} are
+full or partial reduplicates of each other. One such form is that only
+the first character of {\aone}  is reduplicated. With this in mind, we
+introduced four new feature types to the lexicon entries, as presented
+in (\getref{avm:vjp}):
 
 {\small 
 \ex\deftagex{avm:vjp}
@@ -272,11 +457,23 @@ To recall from the introductory remarks, the \textsc{A} elements in \anota are f
 \xe}
 \vspace{-20pt}
 
-The feature types \textsc{wchar} and \textsc{fchar} specify the whole character and the first character of a lexical entry, respectively. The feature \textsc{wchar} is identical to the \textsc{stem} of the lexical entry. Next, the \textsc{length} specifies that an entry has \textit{one} or \textit{more-than-one} character. Finally, the boolean feature \textsc{bound} specifies if an entry is a bound or non-bound form. This is to ensure that one-character \aone ~forms of a multi-character word are used outside of \anota, as they are not independent morphemes. 
+The feature types \textsc{wchar} and \textsc{fchar} specify the whole
+character and the first character of a lexical entry, respectively. The
+feature \textsc{wchar} is identical to the \textsc{stem} of the lexical
+entry. Next, the \textsc{length} specifies that an entry has
+\textit{one} or \textit{more-than-one} character. Finally, the \tdl{luk}
+feature \textsc{bound} specifies if an entry is a bound or non-bound
+form.\footnote{The \tdl{luk} constraint consists of three components,
+such as \ensuremath{+}, \ensuremath{-}, and \tdl{na}
+(not-applicable).} This is to ensure that one-character {\aone}  forms
+of a multi-character word are used outside of \anota, as they are not
+independent morphemes. 
 
-\CJK{UTF8}{gkai}{
-To provide a clearer idea, the entries in (\getref{avm:xihuan}) illustrate the bound and non-bound forms of 喜欢, respectively. As they are identical to each other apart from length, they take the same \textsc{pred} value.
-}
+
+To provide a clearer idea, the entries in (\getref{avm:xihuan})
+illustrate the bound and non-bound forms of \CJK{UTF8}{gkai}{喜欢},
+respectively. As they are identical to each other apart from length,
+they take the same \textsc{pred} value.
 
 {\small 
 \pex<avm:xihuan>
@@ -293,30 +490,35 @@ To provide a clearer idea, the entries in (\getref{avm:xihuan}) illustrate the b
 
 
 
-
-\subsection{Co-occurring Constraints}
-\label{ssec:cooccurring}
-
+\subsection{AVM}
+\label{ssec:avm}
 
 
 
 
-Modifiability (\textbf{Remove this section?})
+{\small 
+\ex\deftagex{avm:super}
+\vspace{-10pt}
+\newline
+\includegraphics[scale=.8]{pdf/super.pdf}
+\xe}
+\vspace{-20pt}
 
 
-\subsubsection{Sentence-final Particles}
-\label{sssec:sfp}
 
-\CJK{UTF8}{gkai}{
-\anota questions are not permitted to occur with certain sentence-final particles (SFP). In the cases of 了 \textit{l\`{e}}, 吗 \textit{m\={a}}, 吧, 哦 and 耶 \textit{b\`{a}}, it is because only propositions can be used with these SFPs, whereas \anota is a question.
+{\small 
+\pex<avm:neg>
+\a<bu>
+\vspace{-10pt}
+\newline
+\includegraphics[scale=.8]{pdf/bu.pdf}
+\a<mei>
+\vspace{-10pt}
+\newline
+\includegraphics[scale=.8]{pdf/mei.pdf}
+\xe}
+\vspace{-20pt}
 
-Other SFPs like the emphatic markers 嘛 \textit{ma}, 呀 \textit{ya} and 呢 \textit{n\={e}} do not, however, restrict themselves to only propositions and are therefore permitted to be used with \anota.
-
-
-\subsubsection{LE-ZHE-GUO}
-
-The markers \textit{l\`{e}}, \textit{zh\`{e}} and \textit{gu\`{o}}, collectively know as \textsc{le-zhe-guo} or LZG, are also restricted in their co-occurrence with \anota, either with the entire \anota phrase, or with the individual \textsc{A} elements. \textit{L\`{e}} and \textit{zh\`{e}} ~are not allowed to co-occur with \anota at all, while \textit{gu\`{o}} can only occur with \anota if the \textsc{not} element is 没 \textit{m\'{e}i}. \footnote{As the present paper deals only with the \textit{bu} form of \anota, we will not delve further.}
-}
 
 \section{Different Forms of {\anota} Questions}
 \label{sec:forms}
@@ -328,8 +530,29 @@ The markers \textit{l\`{e}}, \textit{zh\`{e}} and \textit{gu\`{o}}, collectively
 
 
 
+
+{\small 
+\ex\deftagex{avm:basic}
+\vspace{-10pt}
+\newline
+\includegraphics[scale=.8]{pdf/basic.pdf}
+\xe}
+\vspace{-20pt}
+
+
 \subsection{\textsc{A\ensuremath{^\prime}-not-A}}
 \label{ssec:contracted}
+
+
+
+
+{\small 
+\ex\deftagex{avm:contracted}
+\vspace{-10pt}
+\newline
+\includegraphics[scale=.8]{pdf/contracted.pdf}
+\xe}
+\vspace{-20pt}
 
 
 
@@ -337,6 +560,15 @@ The markers \textit{l\`{e}}, \textit{zh\`{e}} and \textit{gu\`{o}}, collectively
 \label{ssec:phrasal}
 
 
+
+
+{\small 
+\ex\deftagex{avm:ab}
+\vspace{-10pt}
+\newline
+\includegraphics[scale=.8]{pdf/ab.pdf}
+\xe}
+\vspace{-20pt}
 
 
 \section{Implementation}

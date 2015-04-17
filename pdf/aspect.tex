@@ -1,0 +1,22 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage{tree-dvips}
+\usepackage{times}
+\pagestyle{empty}
+
+\begin{document}
+\textit{
+\begin{tabular}[t]{@{}ccc@{}}
+& \node{a}{aspect} \\[2ex]
+\node{b}{perfective} & \node{c}{durative} & \node{d}{imperfective} \\[2ex]
+ & \node{e}{experiential} & \node{f}{non-aspect} \\
+\end{tabular}}
+\nodeconnect{a}{b}
+\nodeconnect{a}{c}
+\nodeconnect{a}{d}
+\nodeconnect{d}{e}
+\nodeconnect{d}{f}
+
+\end{document}
+\
