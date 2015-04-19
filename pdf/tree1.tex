@@ -1,0 +1,51 @@
+\documentclass[a4paper]{article}
+
+\usepackage{relsize}
+\usepackage{qtree}
+\usepackage{avm}
+\usepackage{times}
+\usepackage{xspace}
+\usepackage{CJKutf8}
+\pagestyle{empty}
+
+
+\begin{document}
+
+\CJK{UTF8}{gkai}{
+\leaf{张三\\\em{Zh\={a}ngs\={a}n}}
+\branch{1}{\begin{avm}\@{3}NP\end{avm}}
+\leaf{喜欢\\\em{x\v{\i}huan}}
+\branch{1}{\begin{avm}\@{1}V\end{avm}\vspace{-10pt}\\
+\begin{avm}
+\[ SUBJ & \<\@{3}\> \\ 
+   COMPS & \<\@{4}\> \] 
+\end{avm}}
+\leaf{不\\\em{bu}}
+\branch{1}{ADV\vspace{-10pt}\\
+\begin{avm}
+\[ MOD &  \<\@{1}\> \\ 
+   COMPS & \<\@{2}\> \] 
+\end{avm}}
+\leaf{喜欢\\\em{x\v{\i}huan}}
+\branch{1}{\begin{avm}\@{2}V\end{avm}}
+\branch{2}{ADV\vspace{-10pt}\\
+\begin{avm}
+\[ MOD &  \<\@{1}\> \\ 
+   COMPS & \<~\> \] 
+\end{avm}}
+\branch{2}{V\vspace{-10pt}\\
+\begin{avm}
+\[ SUBJ &  \<\@{3}\> \\ 
+   COMPS & \<\@{4}\> \] 
+\end{avm}}
+\leaf{狗\\\em{g\v{o}u}}
+\branch{1}{\begin{avm}\@{4}N\end{avm}}
+\branch{2}{VP}
+\branch{2}{S}
+\qobitree
+}
+
+\end{document}
+
+
+

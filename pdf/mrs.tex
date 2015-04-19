@@ -1,0 +1,68 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage{avm}
+\usepackage{times}
+\usepackage{xspace}
+\usepackage{CJKutf8}
+\pagestyle{empty}
+
+%喜欢
+\begin{document}
+
+\CJK{UTF8}{gkai}{
+
+\begin{avm}
+\[ 
+INDEX & \@{2}\	\\ 
+RELS & \<
+		\[ \avmspan{\it named\_rel}	\\
+		LBL & \@{4}\	\\ 
+		CARG & {\it "张三"}	\\ 
+		ARG0 & \@{6}\	\\ \], 
+		\[ \avmspan{\it proper\_q\_rel}	\\
+		LBL & \@{7}\	\\ 
+		ARG0 & \@{6}\	\\ 
+		RSTR & \@{8}\	\\ 
+		BODY & \@{9}\	\\ \], \\
+		\[ \avmspan{\it \_喜欢\_v\_1\_rel}	\\
+		LBL & \@{10}\	\\ 
+		ARG0 & \@{2}\	\\ 
+		ARG1 & \@{6}\	\\ 
+		ARG2 & \@{11}\	\\ \], 
+		\[ \avmspan{\it \_不\_r\_rel}	\\
+		LBL & \@{1}\	\\ 
+		ARG0 & \@{12}\	\\ 
+		ARG1 & \@{13}\	\\ \], 
+		\[ \avmspan{\it \_喜欢\_v\_1\_rel}	\\
+		LBL & \@{14}\	\\ 
+		ARG0 & \@{2}\	\\ 
+		ARG1 & \@{6}\	\\ 
+		ARG2 & \@{11}\	\\ \], \\
+		\[ \avmspan{\it \_狗\_n\_1\_rel}	\\
+		LBL & \@{15}\	\\ 
+		ARG0 & \@{11}\	\\ \], 
+		\[ \avmspan{\it exist\_q\_rel}	\\
+		LBL & \@{16}\	\\ 
+		ARG0 & \@{11}\	\\ 
+		RSTR & \@{17}\	\\ 
+		BODY & \@{18}\	\\ \]\>	\\ 
+HCONS & \<
+		\[ \avmspan{\it qeq}	\\
+		HARG & \@{8}\ 	\\ 
+		LARG & \@{4}\ 	\\ \], 
+		\[ \avmspan{\it qeq}	\\
+		HARG & \@{13}\ 	\\ 
+		LARG & \@{10}\ 	\\ \], 
+		\[ \avmspan{\it qeq}	\\
+		HARG & \@{17}\ 	\\ 
+		LARG & \@{15}\ 	\\ \]\>	\\ 
+ICONS & \<\ \[ \avmspan{\it focus} \\ 
+               IARG1 &  \@{12}\ \\ 
+               IARG2 &  \@{12}\ \]  \>	\\ \]
+\end{avm}
+
+}
+
+\end{document}
+
